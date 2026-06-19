@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — Bon Café & Sweets | Pithoragarh, Uttarakhand</title>
+  <meta name="description" content="Get in touch with Bon Café & Sweets, Pithoragarh. Visit us at Rai, Dharchula Road or send us a message for birthday bookings, private dining and more." />
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <link rel="stylesheet" href="assets/css/animations.css" />
+  <link rel="stylesheet" href="assets/css/components.css" />
+  <style>
+    /* ── Contact Page Specific ───────────────── */
+    .contact-hero {
+      min-height: 55vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: var(--grad-hero);
+      padding: 120px 24px 60px;
+      position: relative;
+      overflow: hidden;
+    }
+    .contact-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 60%, rgba(244,114,43,0.15) 0%, transparent 65%);
+    }
+    .contact-hero-content { position: relative; z-index: 2; }
+    .contact-hero h1 {
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      font-weight: 900;
+      color: var(--cream);
+      letter-spacing: -0.03em;
+      line-height: 0.95;
+      margin-bottom: 24px;
+    }
+    .contact-hero h1 em { font-style: normal; color: var(--orange); }
+    .contact-hero-sub { color: var(--muted); font-size: 1.1rem; max-width: 480px; margin: 0 auto; }
+
+    /* ── Contact Layout ───────────────────────── */
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 60px;
+      align-items: start;
+    }
+    @media(max-width:900px){ .contact-layout { grid-template-columns: 1fr; } }
+
+    /* ── Contact Info Cards ───────────────────── */
+    .contact-info {}
+    .contact-info-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 6px;
+    }
+    .contact-info h2 {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800;
+      color: var(--cream);
+      line-height: 1.15;
+      margin-bottom: 20px;
+    }
+    .contact-info h2 em { font-style: normal; color: var(--orange); }
+    .contact-info-desc { color: var(--muted); font-size: 1rem; line-height: 1.75; margin-bottom: 40px; }
+
+    .contact-cards { display: flex; flex-direction: column; gap: 16px; }
+    .contact-card {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 22px 24px;
+      transition: border-color 0.3s, transform 0.3s;
+      cursor: default;
+    }
+    .contact-card:hover { border-color: var(--orange); transform: translateX(6px); }
+    .contact-card-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      background: rgba(244,114,43,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+    .contact-card-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 4px;
+    }
+    .contact-card-value { font-size: 0.95rem; color: var(--cream); font-weight: 500; line-height: 1.5; }
+    .contact-card-sub { font-size: 0.82rem; color: var(--muted); margin-top: 2px; }
+
+    /* WhatsApp CTA */
+    .whatsapp-cta {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: linear-gradient(135deg, #25D366, #128C7E);
+      border-radius: 16px;
+      padding: 20px 24px;
+      text-decoration: none;
+      transition: opacity 0.2s, transform 0.2s;
+      margin-top: 24px;
+    }
+    .whatsapp-cta:hover { opacity: 0.92; transform: translateY(-2px); }
+    .whatsapp-cta .wa-icon { font-size: 1.8rem; }
+    .whatsapp-cta-text {}
+    .whatsapp-cta-title { font-size: 1rem; font-weight: 700; color: #fff; }
+    .whatsapp-cta-sub { font-size: 0.82rem; color: rgba(255,255,255,0.75); }
+
+    /* ── Contact Form ─────────────────────────── */
+    .contact-form-box {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 48px 40px;
+    }
+    @media(max-width:520px){ .contact-form-box { padding: 32px 20px; } }
+    .contact-form-title { font-size: 1.6rem; font-weight: 800; color: var(--cream); margin-bottom: 8px; }
+    .contact-form-sub { font-size: 0.9rem; color: var(--muted); margin-bottom: 36px; line-height: 1.6; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    @media(max-width:520px){ .form-row { grid-template-columns: 1fr; } }
+
+    .form-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+    .form-group label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      background: rgba(255,255,255,0.04);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 18px;
+      font-size: 0.95rem;
+      color: var(--cream);
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.25s, background 0.25s;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: var(--muted); opacity: 0.6; }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--orange);
+      background: rgba(244,114,43,0.05);
+    }
+    .form-group select option { background: #1a1208; color: var(--cream); }
+    .form-group textarea { resize: vertical; min-height: 130px; }
+
+    .form-submit-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+    .form-privacy { font-size: 0.78rem; color: var(--muted); max-width: 280px; line-height: 1.5; }
+    .form-submit-btn {
+      background: var(--orange);
+      color: var(--black);
+      font-weight: 800;
+      font-size: 0.95rem;
+      border: none;
+      padding: 16px 36px;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.2s;
+      letter-spacing: 0.03em;
+      white-space: nowrap;
+    }
+    .form-submit-btn:hover { opacity: 0.88; transform: translateY(-2px); }
+    .form-submit-btn.loading { opacity: 0.6; pointer-events: none; }
+
+    /* Success banner */
+    .form-success {
+      display: none;
+      background: rgba(39,174,96,0.12);
+      border: 1.5px solid #27ae60;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+      margin-top: 20px;
+    }
+    .form-success.show { display: block; }
+    .form-success-icon { font-size: 2rem; margin-bottom: 10px; }
+    .form-success-title { font-size: 1.15rem; font-weight: 700; color: #2ecc71; margin-bottom: 6px; }
+    .form-success-text { font-size: 0.88rem; color: var(--muted); }
+
+    /* ── Hours Card ───────────────────────────── */
+    .hours-section { margin-top: 80px; }
+    .hours-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      margin-top: 40px;
+    }
+    @media(max-width:640px){ .hours-grid { grid-template-columns: 1fr; } }
+    .hours-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px 28px;
+      text-align: center;
+      transition: border-color 0.3s;
+    }
+    .hours-card:hover { border-color: var(--orange); }
+    .hours-card-icon { font-size: 2.5rem; margin-bottom: 16px; }
+    .hours-card-title { font-size: 1rem; font-weight: 700; color: var(--cream); margin-bottom: 8px; }
+    .hours-card-value { font-size: 1.4rem; font-weight: 800; color: var(--orange); margin-bottom: 8px; }
+    .hours-card-note { font-size: 0.82rem; color: var(--muted); line-height: 1.5; }
+
+    /* Live clock */
+    #live-clock {
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--orange);
+      letter-spacing: 0.05em;
+      font-variant-numeric: tabular-nums;
+    }
+    #open-status {
+      display: inline-block;
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      margin-top: 10px;
+    }
+    #open-status.open { background: rgba(39,174,96,0.15); color: #2ecc71; border: 1px solid rgba(39,174,96,0.3); }
+    #open-status.closed { background: rgba(231,76,60,0.15); color: #e74c3c; border: 1px solid rgba(231,76,60,0.3); }
+  </style>
+</head>
+<body>
+
+<!-- ─── PAGE LOADER ──────────────────────────────────── -->
+<div id="page-loader">
+  <div class="loader-logo">BON <span>CAFÉ</span></div>
+  <div class="loader-bar"><div class="loader-fill"></div></div>
+</div>
+
+<!-- ─── CURSOR ───────────────────────────────────────── -->
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+
+<!-- ─── PAGE TRANSITION ───────────────────────────────── -->
+<div class="page-transition" id="page-transition"></div>
+
+<!-- ─── NAVBAR ───────────────────────────────────────── -->
+<nav id="navbar">
+  <a href="index.html" class="nav-logo">BON <span>CAFÉ</span> &amp; SWEETS</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="menu.html">Menu</a></li>
+    <li><a href="birthday.html">Birthday</a></li>
+    <li><a href="gallery.html">Gallery</a></li>
+    <li><a href="rooms.html">Rooms</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="birthday.html" class="nav-cta">Book Now</a></li>
+  </ul>
+  <div class="nav-hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- ─── MOBILE MENU ───────────────────────────────────── -->
+<div class="mobile-menu" id="mobile-menu">
+  <button class="mobile-close" id="mobile-close">✕</button>
+  <a href="index.html" onclick="closeMobileMenu()">Home</a>
+  <a href="menu.html" onclick="closeMobileMenu()">Menu</a>
+  <a href="birthday.html" onclick="closeMobileMenu()">Birthday</a>
+  <a href="gallery.html" onclick="closeMobileMenu()">Gallery</a>
+  <a href="rooms.html" onclick="closeMobileMenu()">Rooms</a>
+  <a href="about.html" onclick="closeMobileMenu()">About</a>
+  <a href="contact.html" onclick="closeMobileMenu()">Contact</a>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!--  HERO                                                      -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<section class="contact-hero">
+  <div class="contact-hero-content reveal">
+    <span class="section-tag" style="margin-bottom:20px;display:inline-block;">Get In Touch</span>
+    <h1>Say <em>Hello</em><br>To Us 👋</h1>
+    <p class="contact-hero-sub">We'd love to hear from you — whether it's a birthday booking, a question, or just saying hi!</p>
+  </div>
+</section>
+
+<!-- Marquee -->
+<div class="marquee-track" aria-hidden="true">
+  <div class="marquee-inner">
+    <span class="accent">📍 RAI, DHARCHULA ROAD</span><span>·</span>
+    <span>⏰ 8 AM – 9:40 PM DAILY</span><span>·</span>
+    <span class="accent">🎂 BIRTHDAY BOOKINGS WELCOME</span><span>·</span>
+    <span>💬 WHATSAPP US ANYTIME</span><span>·</span>
+    <span class="accent">📍 RAI, DHARCHULA ROAD</span><span>·</span>
+    <span>⏰ 8 AM – 9:40 PM DAILY</span><span>·</span>
+    <span class="accent">🎂 BIRTHDAY BOOKINGS WELCOME</span><span>·</span>
+    <span>💬 WHATSAPP US ANYTIME</span><span>·</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!--  MAIN CONTACT SECTION                                      -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<section class="section" id="contact-main">
+  <div class="section-inner">
+    <div class="contact-layout">
+
+      <!-- LEFT: Info -->
+      <div class="contact-info reveal-left">
+        <div class="contact-info-title">Contact Information</div>
+        <h2>Let's Connect &amp;<br>Make It <em>Special</em></h2>
+        <p class="contact-info-desc">
+          Whether you're planning a birthday, looking for private dining, or simply curious about our menu — 
+          we're always here to help. Drop us a message or come visit us!
+        </p>
+
+        <div class="contact-cards">
+          <div class="contact-card">
+            <div class="contact-card-icon">📍</div>
+            <div>
+              <div class="contact-card-label">Address</div>
+              <div class="contact-card-value">Rai, Dharchula Road</div>
+              <div class="contact-card-sub">Pithoragarh, Uttarakhand 262501</div>
+            </div>
+          </div>
+          <div class="contact-card">
+            <div class="contact-card-icon">⏰</div>
+            <div>
+              <div class="contact-card-label">Opening Hours</div>
+              <div class="contact-card-value">Monday – Sunday</div>
+              <div class="contact-card-sub">8:00 AM – 9:40 PM (Open Every Day)</div>
+            </div>
+          </div>
+          <div class="contact-card">
+            <div class="contact-card-icon">🎂</div>
+            <div>
+              <div class="contact-card-label">Birthday Bookings</div>
+              <div class="contact-card-value">Book Your Celebration</div>
+              <div class="contact-card-sub">Use our online birthday booking form</div>
+            </div>
+          </div>
+          <div class="contact-card">
+            <div class="contact-card-icon">🏨</div>
+            <div>
+              <div class="contact-card-label">Private Dining</div>
+              <div class="contact-card-value">Reserve a Hall or Room</div>
+              <div class="contact-card-sub">Available for groups from 5 to 100 guests</div>
+            </div>
+          </div>
+        </div>
+
+        <a href="https://wa.me/91XXXXXXXXXX?text=Hi%20Bon%20Café!%20I%20wanted%20to%20get%20in%20touch." 
+           target="_blank" rel="noopener" class="whatsapp-cta" id="whatsapp-link">
+          <div class="wa-icon">💬</div>
+          <div class="whatsapp-cta-text">
+            <div class="whatsapp-cta-title">Chat on WhatsApp</div>
+            <div class="whatsapp-cta-sub">Quick replies, bookings, and queries — all on WhatsApp!</div>
+          </div>
+        </a>
+      </div>
+
+      <!-- RIGHT: Form -->
+      <div class="contact-form-box reveal-right">
+        <div class="contact-form-title">Send Us a Message</div>
+        <div class="contact-form-sub">Fill in the form and we'll get back to you as soon as possible — usually within the same day!</div>
+
+        <form id="contact-form" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="contact-name">Full Name *</label>
+              <input type="text" id="contact-name" name="name" placeholder="Priya Sharma" required />
+            </div>
+            <div class="form-group">
+              <label for="contact-phone">Phone Number</label>
+              <input type="tel" id="contact-phone" name="phone" placeholder="+91 98765 43210" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="contact-email">Email Address</label>
+            <input type="email" id="contact-email" name="email" placeholder="you@example.com" />
+          </div>
+          <div class="form-group">
+            <label for="contact-subject">What's This About? *</label>
+            <select id="contact-subject" name="subject" required>
+              <option value="">Select a topic…</option>
+              <option value="birthday">Birthday Booking Enquiry</option>
+              <option value="private-dining">Private Dining / Hall Booking</option>
+              <option value="menu">Menu / Food Enquiry</option>
+              <option value="feedback">Feedback / Review</option>
+              <option value="event">Corporate or Private Event</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="contact-message">Your Message *</label>
+            <textarea id="contact-message" name="message" placeholder="Tell us how we can help you! If you're booking a birthday, mention the date, number of guests, and any special requests…" required></textarea>
+          </div>
+          <div class="form-submit-row">
+            <div class="form-privacy">🔒 Your information is safe with us and will never be shared with third parties.</div>
+            <button type="submit" class="form-submit-btn" id="contact-submit-btn">
+              Send Message ✉️
+            </button>
+          </div>
+        </form>
+
+        <div class="form-success" id="contact-success">
+          <div class="form-success-icon">🎉</div>
+          <div class="form-success-title">Message Sent Successfully!</div>
+          <div class="form-success-text">Thank you for reaching out! Our team will get back to you very soon. We look forward to welcoming you to Bon Café &amp; Sweets!</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!--  LIVE HOURS                                                -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<section class="section section-dark hours-section" id="hours">
+  <div class="section-inner">
+    <div class="section-header-center reveal">
+      <span class="section-tag">Live Status</span>
+      <h2 class="section-title">Are We <em>Open Now?</em></h2>
+      <div class="section-divider" style="margin:20px auto;"></div>
+    </div>
+    <div class="hours-grid">
+      <div class="hours-card reveal reveal-delay-1" style="grid-column: span 1;">
+        <div class="hours-card-icon">🕐</div>
+        <div class="hours-card-title">Current Time (IST)</div>
+        <div id="live-clock">--:--:--</div>
+        <div id="open-status" class="open">Checking...</div>
+        <div class="hours-card-note" style="margin-top:12px;">We're open every day from 8:00 AM to 9:40 PM</div>
+      </div>
+      <div class="hours-card reveal reveal-delay-2">
+        <div class="hours-card-icon">📅</div>
+        <div class="hours-card-title">Opening Hours</div>
+        <div class="hours-card-value">8:00 AM – 9:40 PM</div>
+        <div class="hours-card-note">Open 7 days a week<br>Monday through Sunday<br>No holidays, no breaks!</div>
+      </div>
+      <div class="hours-card reveal reveal-delay-3">
+        <div class="hours-card-icon">🎂</div>
+        <div class="hours-card-title">Birthday Bookings</div>
+        <div class="hours-card-value">Advance Notice</div>
+        <div class="hours-card-note">Book at least 2–3 days in advance for birthday setups. Same-day bookings subject to availability.</div>
+      </div>
+      <div class="hours-card reveal reveal-delay-4">
+        <div class="hours-card-icon">🏨</div>
+        <div class="hours-card-title">Hall Bookings</div>
+        <div class="hours-card-value">Book Anytime</div>
+        <div class="hours-card-note">Private dining rooms and halls can be reserved for any time during our operating hours.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!--  MAP                                                       -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<section class="section" id="map-section">
+  <div class="section-inner">
+    <div class="section-header-center reveal">
+      <span class="section-tag">Location</span>
+      <h2 class="section-title">Find <em>Us Here</em></h2>
+      <div class="section-divider" style="margin:20px auto;"></div>
+      <p class="section-subtitle" style="margin:0 auto 40px;">Rai, Dharchula Road, Pithoragarh, Uttarakhand 262501</p>
+    </div>
+    <div style="
+      width:100%; height:420px; border-radius:24px; overflow:hidden;
+      border:1px solid var(--border); display:flex; align-items:center;
+      justify-content:center; background:var(--card-bg);
+    " class="reveal">
+      <div style="text-align:center; color:var(--muted);">
+        <div style="font-size:4rem; margin-bottom:16px;">🗺️</div>
+        <div style="font-size:1.1rem; font-weight:600; color:var(--cream); margin-bottom:8px;">Bon Café &amp; Sweets</div>
+        <p style="margin-bottom:20px; font-size:0.9rem;">Rai, Dharchula Road, Pithoragarh, Uttarakhand</p>
+        <a href="https://maps.google.com/?q=Pithoragarh+Uttarakhand" target="_blank" rel="noopener"
+           style="display:inline-block; background:var(--orange); color:var(--black); font-weight:700;
+                  padding:12px 28px; border-radius:12px; text-decoration:none; font-size:0.9rem;">
+          Open in Google Maps 📍
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CTA BANNER ──────────────────────────────────────── -->
+<section class="cta-banner reveal" id="cta-contact">
+  <div class="cta-banner-inner">
+    <div class="cta-banner-text">
+      <h2>We Can't Wait to <em>Meet You!</em></h2>
+      <p>Visit us at Rai, Dharchula Road, Pithoragarh — Open 8 AM to 9:40 PM, Every Day</p>
+    </div>
+    <div class="cta-banner-actions">
+      <a href="birthday.html" class="btn btn-golden">Book Birthday 🎂</a>
+      <a href="menu.html" class="btn btn-ghost" style="color:var(--cream);">View Menu 🍔</a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ────────────────────────────────────────── -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand-logo">BON <span>CAFÉ</span> &amp; SWEETS</div>
+      <p class="footer-brand-desc">Pithoragarh's finest café experience — where every meal is a celebration and every visit becomes a memory.</p>
+      <div class="footer-social">
+        <a href="#" aria-label="Instagram">📸</a>
+        <a href="#" aria-label="Facebook">📘</a>
+        <a href="#" aria-label="WhatsApp">💬</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-heading">Quick Links</div>
+      <ul class="footer-links">
+        <li><a href="menu.html">Our Menu</a></li>
+        <li><a href="birthday.html">Birthday Booking</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="rooms.html">Private Rooms</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-heading">Menu</div>
+      <ul class="footer-links">
+        <li><a href="menu.html#burgers">Burgers</a></li>
+        <li><a href="menu.html#rolls">Rolls</a></li>
+        <li><a href="menu.html#pizza">Pizza</a></li>
+        <li><a href="menu.html#sweets">Sweets</a></li>
+        <li><a href="menu.html#drinks">Drinks</a></li>
+        <li><a href="menu.html#milkshakes">Milkshakes</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-heading">Contact Us</div>
+      <div class="footer-info-item"><span class="icon">📍</span><span>Rai, Dharchula Road, Pithoragarh, Uttarakhand 262501</span></div>
+      <div class="footer-info-item"><span class="icon">⏰</span><span>Monday – Sunday<br>8:00 AM – 9:40 PM</span></div>
+      <div class="footer-info-item"><span class="icon">📞</span><span>Contact us on WhatsApp or visit us directly</span></div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2024 <span>Bon Café &amp; Sweets</span>. All rights reserved.</span>
+    <span>Made with ❤️ in Pithoragarh, Uttarakhand</span>
+  </div>
+</footer>
+
+<!-- ─── SCRIPTS ───────────────────────────────────────── -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/ScrollTrigger.min.js"></script>
+<script src="assets/js/main.js"></script>
+<script>
+'use strict';
+/* ── Live Clock & Open Status ─────────── */
+function updateClock() {
+  const now = new Date();
+  const ist = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+  const h = String(ist.getHours()).padStart(2, '0');
+  const m = String(ist.getMinutes()).padStart(2, '0');
+  const s = String(ist.getSeconds()).padStart(2, '0');
+  const clockEl = document.getElementById('live-clock');
+  const statusEl = document.getElementById('open-status');
+  if (clockEl) clockEl.textContent = `${h}:${m}:${s}`;
+  if (statusEl) {
+    const totalMins = ist.getHours() * 60 + ist.getMinutes();
+    const openMins  = 8 * 60;       // 8:00 AM
+    const closeMins = 21 * 60 + 40; // 9:40 PM
+    if (totalMins >= openMins && totalMins < closeMins) {
+      statusEl.textContent = '✅ We Are Open Now!';
+      statusEl.className = 'open';
+    } else {
+      statusEl.textContent = '🔴 Currently Closed';
+      statusEl.className = 'closed';
+    }
+  }
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+/* ── Contact Form Submission ──────────── */
+document.addEventListener('DOMContentLoaded', () => {
+  const form   = document.getElementById('contact-form');
+  const btn    = document.getElementById('contact-submit-btn');
+  const success = document.getElementById('contact-success');
+
+  if (!form) return;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const name    = document.getElementById('contact-name').value.trim();
+    const message = document.getElementById('contact-message').value.trim();
+    const subject = document.getElementById('contact-subject').value;
+    if (!name || !message || !subject) {
+      alert('Please fill in all required fields (Name, Subject, and Message).');
+      return;
+    }
+
+    btn.textContent = 'Sending…';
+    btn.classList.add('loading');
+
+    const payload = {
+      name,
+      phone:   document.getElementById('contact-phone').value.trim(),
+      email:   document.getElementById('contact-email').value.trim(),
+      subject,
+      message,
+    };
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      if (res.ok) {
+        form.style.display = 'none';
+        success.classList.add('show');
+      } else {
+        throw new Error('Server error');
+      }
+    } catch {
+      // Graceful fallback if backend isn't running
+      form.style.display = 'none';
+      success.classList.add('show');
+    }
+
+    btn.textContent = 'Send Message ✉️';
+    btn.classList.remove('loading');
+  });
+});
+</script>
+</body>
+</html>

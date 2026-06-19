@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Birthday Booking — Bon Café & Sweets | Pithoragarh</title>
+  <meta name="description" content="Book your perfect birthday celebration at Bon Café & Sweets, Pithoragarh. Custom decorations, personalized cakes, private dining. Book now!" />
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <link rel="stylesheet" href="assets/css/animations.css" />
+  <link rel="stylesheet" href="assets/css/components.css" />
+  <style>
+    .birthday-hero {
+      min-height: 55vh;
+      background: linear-gradient(135deg, #1A0A00, #2D1500, #3D2000);
+      display: flex;
+      align-items: flex-end;
+      padding: 0 80px 70px;
+      padding-top: 120px;
+      position: relative;
+      overflow: hidden;
+    }
+    .birthday-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 60% 40%, rgba(255,212,71,0.18), transparent 60%);
+    }
+    .birthday-confetti-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .b-confetti {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      border-radius: 2px;
+      animation: confettiFall linear infinite;
+    }
+    .birthday-hero-content { position: relative; z-index: 1; }
+    .birthday-hero-content h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      color: var(--cream);
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+    .birthday-hero-content h1 em { color: var(--golden); font-style: italic; }
+
+    /* Booking wrapper */
+    .booking-wrapper {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 30px;
+    }
+
+    /* Wizard container */
+    .wizard-container {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      padding: 50px 56px;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      margin-bottom: 40px;
+    }
+
+    /* Calendar */
+    .calendar-wrapper {
+      background: rgba(255,245,220,0.04);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      padding: 30px;
+    }
+    .calendar-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .cal-month { font-family: var(--font-heading); font-size: 1.2rem; font-weight: 700; color: var(--cream); }
+    .cal-nav { width: 36px; height: 36px; border-radius: 50%; background: rgba(255,245,220,0.08); border: 1px solid var(--glass-border); color: var(--cream); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background var(--trans-fast); font-size: 1rem; }
+    .cal-nav:hover { background: var(--bon-orange); }
+    .calendar-days-header { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-bottom: 8px; }
+    .cal-day-name { text-align: center; font-size: 0.72rem; letter-spacing: 0.1em; color: rgba(255,245,220,0.4); text-transform: uppercase; padding: 4px; }
+    .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+    .cal-day { text-align: center; padding: 8px 4px; border-radius: 8px; cursor: pointer; font-size: 0.88rem; color: rgba(255,245,220,0.7); transition: all var(--trans-fast); border: 1px solid transparent; }
+    .cal-day:hover { background: rgba(244,114,43,0.2); color: var(--cream); }
+    .cal-day.selected { background: var(--bon-orange); color: white; border-color: var(--bon-orange); font-weight: 700; }
+    .cal-day.today { border-color: rgba(255,212,71,0.4); color: var(--golden); }
+    .cal-day.past { opacity: 0.25; pointer-events: none; }
+    .cal-day.empty { pointer-events: none; }
+
+    /* Time slots */
+    .time-slots-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 10px; }
+    .time-slot { padding: 14px 10px; border-radius: 12px; border: 1px solid var(--glass-border); text-align: center; cursor: pointer; font-size: 0.85rem; color: rgba(255,245,220,0.7); transition: all var(--trans-fast); background: rgba(255,245,220,0.04); }
+    .time-slot:hover { border-color: var(--bon-orange); color: var(--cream); background: rgba(244,114,43,0.1); }
+    .time-slot.selected { background: var(--bon-orange); border-color: var(--bon-orange); color: white; font-weight: 600; }
+
+    /* Guest stepper */
+    .guest-section { display: flex; align-items: center; gap: 40px; flex-wrap: wrap; }
+    .guest-info { flex: 1; }
+    .guest-range { font-size: 0.82rem; color: rgba(255,245,220,0.5); margin-top: 6px; }
+
+    /* Decoration themes */
+    .theme-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .theme-card { border-radius: 16px; overflow: hidden; cursor: pointer; border: 2px solid rgba(255,245,220,0.08); transition: all var(--trans-bounce); background: rgba(255,245,220,0.04); }
+    .theme-card.selected { border-color: var(--bon-orange); box-shadow: 0 0 24px rgba(244,114,43,0.4); }
+    .theme-card:hover { transform: scale(1.04); border-color: rgba(244,114,43,0.4); }
+    .theme-preview { height: 90px; display: flex; align-items: center; justify-content: center; font-size: 2.8rem; }
+    .theme-label { padding: 12px 10px; text-align: center; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,245,220,0.75); }
+
+    /* Confirmation */
+    .confirm-summary { background: rgba(255,245,220,0.05); border: 1px solid var(--glass-border); border-radius: 16px; padding: 30px; margin-bottom: 30px; }
+    .confirm-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(255,245,220,0.06); }
+    .confirm-row:last-child { border-bottom: none; }
+    .confirm-label { font-size: 0.85rem; color: rgba(255,245,220,0.55); text-transform: uppercase; letter-spacing: 0.08em; }
+    .confirm-value { font-weight: 600; color: var(--cream); font-size: 0.95rem; }
+
+    /* Candles */
+    .cake-display { text-align: center; padding: 30px 0; }
+    .cake-emoji { font-size: 6rem; display: block; margin-bottom: 16px; animation: floatUp 3s ease-in-out infinite; }
+
+    /* Confetti canvas */
+    #confetti-canvas { position: fixed; inset: 0; pointer-events: none; z-index: 9998; display: none; }
+
+    /* Success screen */
+    #success-screen { display: none; text-align: center; padding: 40px 20px; }
+    .success-icon { font-size: 5rem; margin-bottom: 20px; animation: bounceIn 0.6s var(--trans-bounce); }
+    @keyframes bounceIn { from { transform: scale(0); } to { transform: scale(1); } }
+    .success-title { font-family: var(--font-heading); font-size: 2.2rem; color: var(--golden); margin-bottom: 12px; }
+    .success-sub { color: rgba(255,245,220,0.65); font-size: 0.95rem; line-height: 1.8; }
+
+    /* Wizard nav buttons */
+    .wizard-nav { display: flex; gap: 14px; justify-content: flex-end; margin-top: 36px; }
+
+    @media (max-width: 768px) {
+      .wizard-container { padding: 30px 20px; }
+      .booking-wrapper { padding: 0 10px; }
+      .time-slots-grid { grid-template-columns: repeat(2,1fr); }
+      .theme-grid { grid-template-columns: repeat(2,1fr); }
+      .birthday-hero { padding: 100px 20px 50px; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="page-loader"><div class="loader-logo">BON <span>CAFÉ</span></div><div class="loader-bar"><div class="loader-fill"></div></div></div>
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+<canvas id="confetti-canvas"></canvas>
+
+<nav id="navbar">
+  <a href="index.html" class="nav-logo">BON <span>CAFÉ</span> & SWEETS</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="menu.html">Menu</a></li>
+    <li><a href="birthday.html" style="color:var(--bon-orange)">Birthday</a></li>
+    <li><a href="gallery.html">Gallery</a></li>
+    <li><a href="rooms.html">Rooms</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="birthday.html" class="nav-cta">Book Now</a></li>
+  </ul>
+  <div class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+  <button class="mobile-close" id="mobile-close">✕</button>
+  <a href="index.html">Home</a><a href="menu.html">Menu</a><a href="birthday.html">Birthday</a>
+  <a href="gallery.html">Gallery</a><a href="rooms.html">Rooms</a><a href="about.html">About</a>
+</div>
+
+<!-- HERO -->
+<div class="birthday-hero">
+  <div class="birthday-confetti-bg" id="hero-confetti" aria-hidden="true"></div>
+  <div class="birthday-hero-content">
+    <span class="section-tag">🎂 Celebrate With Us</span>
+    <h1>Book Your <em>Dream</em><br>Birthday Party</h1>
+    <p style="color:rgba(255,245,220,0.6);font-size:1rem;margin-top:12px;">Intimate or grand · Custom themes · Personal touches · Magic guaranteed</p>
+  </div>
+</div>
+
+<!-- BOOKING WIZARD -->
+<section class="section">
+  <div class="booking-wrapper">
+
+    <!-- Step Progress -->
+    <div class="wizard-steps" id="wizard-steps">
+      <div class="wizard-step active" id="step-ind-1">
+        <div class="step-bubble">📅</div>
+        <div class="step-label">Date</div>
+      </div>
+      <div class="wizard-step" id="step-ind-2">
+        <div class="step-bubble">⏰</div>
+        <div class="step-label">Time</div>
+      </div>
+      <div class="wizard-step" id="step-ind-3">
+        <div class="step-bubble">👥</div>
+        <div class="step-label">Guests</div>
+      </div>
+      <div class="wizard-step" id="step-ind-4">
+        <div class="step-bubble">🎨</div>
+        <div class="step-label">Theme</div>
+      </div>
+      <div class="wizard-step" id="step-ind-5">
+        <div class="step-bubble">✅</div>
+        <div class="step-label">Confirm</div>
+      </div>
+    </div>
+
+    <!-- Wizard Panels -->
+    <div class="wizard-container">
+
+      <!-- Step 1: Date -->
+      <div class="wizard-panel active" id="panel-1">
+        <h3 style="font-family:var(--font-heading);font-size:1.5rem;margin-bottom:8px;color:var(--cream);">Pick Your <span style="color:var(--bon-orange)">Date</span></h3>
+        <p style="color:rgba(255,245,220,0.5);font-size:0.88rem;margin-bottom:28px;">Select the date for your birthday celebration</p>
+        <div class="calendar-wrapper">
+          <div class="calendar-header">
+            <button class="cal-nav" id="cal-prev">‹</button>
+            <div class="cal-month" id="cal-month-label">June 2024</div>
+            <button class="cal-nav" id="cal-next">›</button>
+          </div>
+          <div class="calendar-days-header">
+            <div class="cal-day-name">Sun</div><div class="cal-day-name">Mon</div>
+            <div class="cal-day-name">Tue</div><div class="cal-day-name">Wed</div>
+            <div class="cal-day-name">Thu</div><div class="cal-day-name">Fri</div>
+            <div class="cal-day-name">Sat</div>
+          </div>
+          <div class="calendar-grid" id="calendar-grid"></div>
+        </div>
+        <div class="wizard-nav">
+          <button class="btn btn-primary" id="step1-next" disabled>Next: Pick Time →</button>
+        </div>
+      </div>
+
+      <!-- Step 2: Time -->
+      <div class="wizard-panel" id="panel-2">
+        <h3 style="font-family:var(--font-heading);font-size:1.5rem;margin-bottom:8px;color:var(--cream);">Choose Your <span style="color:var(--bon-orange)">Time Slot</span></h3>
+        <p style="color:rgba(255,245,220,0.5);font-size:0.88rem;margin-bottom:28px;">All celebrations welcome during café hours (8 AM – 9:40 PM)</p>
+        <div class="time-slots-grid" id="time-slots">
+          <div class="time-slot" data-time="10:00 AM">10:00 AM</div>
+          <div class="time-slot" data-time="12:00 PM">12:00 PM</div>
+          <div class="time-slot" data-time="2:00 PM">2:00 PM</div>
+          <div class="time-slot" data-time="4:00 PM">4:00 PM</div>
+          <div class="time-slot" data-time="6:00 PM">6:00 PM</div>
+          <div class="time-slot" data-time="7:00 PM">7:00 PM</div>
+          <div class="time-slot" data-time="7:30 PM">7:30 PM</div>
+          <div class="time-slot" data-time="8:00 PM">8:00 PM</div>
+        </div>
+        <div class="wizard-nav">
+          <button class="btn btn-ghost" onclick="goStep(1)">← Back</button>
+          <button class="btn btn-primary" id="step2-next" disabled>Next: Guests →</button>
+        </div>
+      </div>
+
+      <!-- Step 3: Guests -->
+      <div class="wizard-panel" id="panel-3">
+        <h3 style="font-family:var(--font-heading);font-size:1.5rem;margin-bottom:8px;color:var(--cream);">How Many <span style="color:var(--bon-orange)">Guests?</span></h3>
+        <p style="color:rgba(255,245,220,0.5);font-size:0.88rem;margin-bottom:36px;">We accommodate groups from 5 to 60 guests</p>
+        <div class="guest-section">
+          <div class="stepper">
+            <button class="stepper-btn" id="guest-minus">−</button>
+            <div class="stepper-value" id="guest-count">10</div>
+            <button class="stepper-btn" id="guest-plus">+</button>
+          </div>
+          <div class="guest-info">
+            <div style="font-size:1.1rem;font-weight:700;color:var(--cream);" id="guest-label">10 Guests</div>
+            <div class="guest-range">Minimum 5 · Maximum 60 guests</div>
+          </div>
+        </div>
+        <div class="form-group" style="margin-top:30px;">
+          <label class="form-label">Your Name *</label>
+          <input type="text" class="form-input" id="booking-name" placeholder="Enter your full name" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Phone Number *</label>
+          <input type="tel" class="form-input" id="booking-phone" placeholder="+91 XXXXX XXXXX" />
+        </div>
+        <div class="wizard-nav">
+          <button class="btn btn-ghost" onclick="goStep(2)">← Back</button>
+          <button class="btn btn-primary" onclick="goStep(4)">Next: Theme →</button>
+        </div>
+      </div>
+
+      <!-- Step 4: Theme -->
+      <div class="wizard-panel" id="panel-4">
+        <h3 style="font-family:var(--font-heading);font-size:1.5rem;margin-bottom:8px;color:var(--cream);">Pick a <span style="color:var(--bon-orange)">Theme</span></h3>
+        <p style="color:rgba(255,245,220,0.5);font-size:0.88rem;margin-bottom:28px;">We'll decorate the space to match your dream</p>
+        <div class="theme-grid" id="theme-grid">
+          <div class="theme-card" data-theme="Classic Elegance"><div class="theme-preview" style="background:linear-gradient(135deg,#1A0A00,#3D1500);">🎊</div><div class="theme-label">Classic Elegance</div></div>
+          <div class="theme-card" data-theme="Fairy Lights"><div class="theme-preview" style="background:linear-gradient(135deg,#0D0020,#1A0040);">✨</div><div class="theme-label">Fairy Lights</div></div>
+          <div class="theme-card" data-theme="Tropical Fiesta"><div class="theme-preview" style="background:linear-gradient(135deg,#0A1A00,#1A3A00);">🌺</div><div class="theme-label">Tropical Fiesta</div></div>
+          <div class="theme-card" data-theme="Golden Royale"><div class="theme-preview" style="background:linear-gradient(135deg,#2A1A00,#4A3000);">👑</div><div class="theme-label">Golden Royale</div></div>
+          <div class="theme-card" data-theme="Candy Land"><div class="theme-preview" style="background:linear-gradient(135deg,#1A0015,#3A0030);">🍭</div><div class="theme-label">Candy Land</div></div>
+          <div class="theme-card" data-theme="Rustic Charm"><div class="theme-preview" style="background:linear-gradient(135deg,#1A1000,#3A2500);">🌿</div><div class="theme-label">Rustic Charm</div></div>
+        </div>
+        <div class="wizard-nav">
+          <button class="btn btn-ghost" onclick="goStep(3)">← Back</button>
+          <button class="btn btn-primary" id="step4-next" disabled>Review Booking →</button>
+        </div>
+      </div>
+
+      <!-- Step 5: Confirm -->
+      <div class="wizard-panel" id="panel-5">
+        <div class="cake-display">
+          <span class="cake-emoji">🎂</span>
+          <h3 style="font-family:var(--font-heading);font-size:1.6rem;color:var(--golden);margin-bottom:8px;">Almost There!</h3>
+          <p style="color:rgba(255,245,220,0.55);font-size:0.9rem;">Review your booking details below</p>
+        </div>
+        <div class="confirm-summary" id="confirm-summary">
+          <div class="confirm-row"><span class="confirm-label">📅 Date</span><span class="confirm-value" id="conf-date">—</span></div>
+          <div class="confirm-row"><span class="confirm-label">⏰ Time</span><span class="confirm-value" id="conf-time">—</span></div>
+          <div class="confirm-row"><span class="confirm-label">👥 Guests</span><span class="confirm-value" id="conf-guests">—</span></div>
+          <div class="confirm-row"><span class="confirm-label">🎨 Theme</span><span class="confirm-value" id="conf-theme">—</span></div>
+          <div class="confirm-row"><span class="confirm-label">👤 Name</span><span class="confirm-value" id="conf-name">—</span></div>
+          <div class="confirm-row"><span class="confirm-label">📞 Phone</span><span class="confirm-value" id="conf-phone">—</span></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Special Requests (optional)</label>
+          <textarea class="form-textarea" id="booking-notes" placeholder="Any special requests, dietary requirements or surprises we should plan..."></textarea>
+        </div>
+        <div class="wizard-nav">
+          <button class="btn btn-ghost" onclick="goStep(4)">← Back</button>
+          <button class="btn btn-golden" id="confirm-btn" style="font-size:1rem;padding:16px 36px;">🎉 Confirm Birthday Booking!</button>
+        </div>
+      </div>
+
+    </div><!-- /wizard-container -->
+
+    <!-- Success Screen -->
+    <div id="success-screen" class="wizard-container">
+      <div class="success-icon">🎉</div>
+      <div class="success-title">Booking Confirmed!</div>
+      <p class="success-sub">
+        Amazing! Your birthday celebration has been booked at Bon Café & Sweets.<br><br>
+        We'll call you shortly to confirm the details and discuss your special requests.<br><br>
+        <strong style="color:var(--bon-orange);">Rai, Dharchula Road, Pithoragarh · 8 AM – 9:40 PM</strong>
+      </p>
+      <div style="margin-top:36px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+        <a href="index.html" class="btn btn-primary">← Back to Home</a>
+        <a href="menu.html" class="btn btn-ghost">View Menu 🍔</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Why Book With Us -->
+<section class="section" style="padding-top:0;">
+  <div class="section-inner">
+    <div class="section-header-center reveal" style="margin-bottom:50px;">
+      <span class="section-tag">Why Celebrate Here</span>
+      <h2 class="section-title">The Bon Café <em>Experience</em></h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:24px;">
+      <div class="info-card reveal reveal-delay-1"><div class="info-card-icon">🎨</div><div><div class="info-card-title">Custom Decorations</div><div class="info-card-text">Choose from 6 stunning themes — we transform the space completely</div></div></div>
+      <div class="info-card reveal reveal-delay-2"><div class="info-card-icon">🎂</div><div><div class="info-card-title">Personalized Cake</div><div class="info-card-text">Custom birthday cake designed exactly to your taste</div></div></div>
+      <div class="info-card reveal reveal-delay-3"><div class="info-card-icon">📸</div><div><div class="info-card-title">Photo Setup</div><div class="info-card-text">Beautiful backdrop for memories that last a lifetime</div></div></div>
+      <div class="info-card reveal reveal-delay-4"><div class="info-card-icon">🍽️</div><div><div class="info-card-title">Curated Menu</div><div class="info-card-text">Special birthday menu with your favourite Bon Café dishes</div></div></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div><div class="footer-brand-logo">BON <span>CAFÉ</span> & SWEETS</div><p class="footer-brand-desc">Pithoragarh's finest café experience.</p><div class="footer-social"><a href="#">📸</a><a href="#">📘</a><a href="#">💬</a></div></div>
+    <div><div class="footer-heading">Quick Links</div><ul class="footer-links"><li><a href="menu.html">Our Menu</a></li><li><a href="gallery.html">Gallery</a></li><li><a href="rooms.html">Private Rooms</a></li><li><a href="about.html">About Us</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    <div><div class="footer-heading">Visit Us</div><div class="footer-info-item"><span class="icon">📍</span><span>Rai, Dharchula Road, Pithoragarh 262501</span></div><div class="footer-info-item"><span class="icon">⏰</span><span>Every Day · 8:00 AM – 9:40 PM</span></div></div>
+    <div><div class="footer-heading">Book Now</div><p style="color:rgba(255,245,220,0.5);font-size:0.88rem;line-height:1.7;">Ready to celebrate? Book your birthday party online or visit us directly at our café.</p><a href="birthday.html" class="btn btn-primary" style="margin-top:16px;font-size:0.8rem;padding:10px 20px;">Book Now →</a></div>
+  </div>
+  <div class="footer-bottom"><span>© 2024 <span>Bon Café & Sweets</span>. All rights reserved.</span><span>Made with ❤️ in Pithoragarh</span></div>
+</footer>
+
+<div class="toast" id="toast"><div class="toast-title">✅ Done!</div><div id="toast-msg"></div></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/birthday.js"></script>
+</body>
+</html>

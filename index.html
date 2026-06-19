@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bon Café & Sweets — Eat. Celebrate. Repeat. | Pithoragarh</title>
+  <meta name="description"
+    content="Bon Café & Sweets in Pithoragarh, Uttarakhand. Gourmet burgers, rolls, pizza, Indian sweets, and premium milkshakes. Birthday bookings & private dining. Open daily 8 AM – 9:40 PM." />
+  <meta name="keywords"
+    content="Bon Cafe Pithoragarh, cafe Dharchula Road, birthday booking Pithoragarh, burgers Uttarakhand, sweets cafe" />
+  <!-- Fonts: Baloo 2 (bubble display) + Poppins (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800;900&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <link rel="stylesheet" href="assets/css/animations.css" />
+  <link rel="stylesheet" href="assets/css/components.css" />
+  <link rel="stylesheet" href="assets/css/home.css" />
+</head>
+
+<body>
+
+  <!-- ─── SAUCE SPLASH INTRO OVERLAY ───────────────────────── -->
+  <div id="sauce-splash-overlay">
+    <svg viewBox="0 0 1440 900" preserveAspectRatio="none" id="sauce-svg">
+      <defs>
+        <linearGradient id="sauce-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#FF5500" />
+          <stop offset="100%" stop-color="#D84300" />
+        </linearGradient>
+      </defs>
+      <path id="sauce-path" d="M -10 -10 L 1450 -10 L 1450 0 C 1200 0, 900 0, 720 0 C 500 0, 200 0, -10 0 Z" fill="url(#sauce-grad)" />
+    </svg>
+  </div>
+
+  <!-- ─── PAGE LOADER ──────────────────────────────────── -->
+  <div id="page-loader">
+    <div class="loader-logo">BON <span>CAFÉ</span></div>
+    <div class="loader-bar">
+      <div class="loader-fill"></div>
+    </div>
+  </div>
+
+  <!-- ─── CURSOR ───────────────────────────────────────── -->
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+
+  <!-- ─── PAGE TRANSITION ───────────────────────────────── -->
+  <div class="page-transition" id="page-transition"></div>
+
+  <!-- ─── NAVBAR ───────────────────────────────────────── -->
+  <nav id="navbar">
+    <a href="index.html" class="nav-logo">BON <span>CAFÉ</span> & SWEETS</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="menu.html">Menu</a></li>
+      <li><a href="birthday.html">Birthday</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="rooms.html">Rooms</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="birthday.html" class="nav-cta">Book Now</a></li>
+    </ul>
+    <div class="nav-hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <!-- ─── MOBILE MENU ───────────────────────────────────── -->
+  <div class="mobile-menu" id="mobile-menu">
+    <button class="mobile-close" id="mobile-close">✕</button>
+    <a href="index.html" onclick="closeMobileMenu()">Home</a>
+    <a href="menu.html" onclick="closeMobileMenu()">Menu</a>
+    <a href="birthday.html" onclick="closeMobileMenu()">Birthday</a>
+    <a href="gallery.html" onclick="closeMobileMenu()">Gallery</a>
+    <a href="rooms.html" onclick="closeMobileMenu()">Rooms</a>
+    <a href="about.html" onclick="closeMobileMenu()">About</a>
+    <a href="contact.html" onclick="closeMobileMenu()">Contact</a>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!--  SECTION 1 — HERO                                         -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <section id="hero">
+
+    <div class="hero-content">
+      <!-- ── REALISTIC LAYERED BURGER ───────────────────────── -->
+      <!-- Each layer is a real food photograph, animated by burger.js -->
+      <div class="burger-stage" id="burger-stage" aria-label="Realistic animated burger">
+        <!-- SVG Jarvis HUD Circles Background -->
+        <div class="hud-circle-container">
+          <svg class="hud-svg" viewBox="0 0 500 500">
+            <circle cx="250" cy="250" r="210" class="hud-ring ring-outer" />
+            <circle cx="250" cy="250" r="180" class="hud-ring ring-mid" />
+            <circle cx="250" cy="250" r="150" class="hud-ring ring-inner" />
+            <circle cx="250" cy="250" r="165" class="hud-ring ring-dashed" stroke-dasharray="8 8" />
+            <path d="M 30 250 L 90 250 M 410 250 L 470 250" class="hud-line" />
+            <path d="M 250 30 L 250 90 M 250 410 L 250 470" class="hud-line" />
+          </svg>
+        </div>
+
+        <div class="burger-wrapper" id="burger-wrapper">
+          <!-- Top Bun -->
+          <div class="burger-layer layer-bun-top" id="layer-bun-top">
+            <img src="assets/images/layer_bun_top.png" alt="Sesame bun top" />
+          </div>
+
+          <!-- Lettuce -->
+          <div class="burger-layer layer-lettuce" id="layer-lettuce">
+            <img src="assets/images/layer_lettuce.png" alt="Fresh organic lettuce" />
+          </div>
+
+          <!-- Tomato -->
+          <div class="burger-layer layer-tomato" id="layer-tomato">
+            <img src="assets/images/layer_tomato.png" alt="Tomato slices" />
+          </div>
+
+          <!-- Cheese -->
+          <div class="burger-layer layer-cheese" id="layer-cheese">
+            <img src="assets/images/layer_cheese.png" alt="Melted cheddar cheese" />
+          </div>
+
+          <!-- Patty -->
+          <div class="burger-layer layer-patty" id="layer-patty">
+            <img src="assets/images/layer_patty.png" alt="Flame-grilled beef patty" />
+          </div>
+
+          <!-- Bottom Bun -->
+          <div class="burger-layer layer-bun-bottom" id="layer-bun-bottom">
+            <img src="assets/images/layer_bun_bottom.png" alt="Burger bottom bun" />
+          </div>
+        </div>
+
+        <!-- Technical spec labels floating around -->
+        <div class="hud-label label-bun-top left" id="hud-label-bun-top">
+          <div class="hud-label-line"></div>
+          <div class="hud-label-box">
+            <span class="hud-title">TOP CROWN</span>
+            <span class="hud-value">BRIOCHE SESAME</span>
+          </div>
+        </div>
+        
+        <div class="hud-label label-lettuce right" id="hud-label-lettuce">
+          <div class="hud-label-line"></div>
+          <div class="hud-label-box">
+            <span class="hud-title">LETTUCE</span>
+            <span class="hud-value">CRISP ORGANIC</span>
+          </div>
+        </div>
+
+        <div class="hud-label label-tomato left" id="hud-label-tomato">
+          <div class="hud-label-line"></div>
+          <div class="hud-label-box">
+            <span class="hud-title">TOMATO</span>
+            <span class="hud-value">FIELD FRESH</span>
+          </div>
+        </div>
+
+        <div class="hud-label label-cheese right" id="hud-label-cheese">
+          <div class="hud-label-line"></div>
+          <div class="hud-label-box">
+            <span class="hud-title">CHEESE</span>
+            <span class="hud-value">DOUBLE CHEDDAR</span>
+          </div>
+        </div>
+
+        <div class="hud-label label-patty left" id="hud-label-patty">
+          <div class="hud-label-line"></div>
+          <div class="hud-label-box">
+            <span class="hud-title">PATTY</span>
+            <span class="hud-value">100% FLAME GRILLED</span>
+          </div>
+        </div>
+
+        <div class="hud-label label-bun-bottom right" id="hud-label-bun-bottom">
+          <div class="hud-label-line"></div>
+          <div class="hud-label-box">
+            <span class="hud-title">BASE BUN</span>
+            <span class="hud-value">BUTTERY TOASTED</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── HERO TEXT ──────────────────────────────────────── -->
+      <div class="hero-text-block" id="hero-text">
+        <div class="hero-tag" id="hero-tag-el">
+          <span class="hero-tag-dot"></span>
+          Pithoragarh · Open Daily 8 AM – 9:40 PM
+        </div>
+        <h1 class="hero-title" id="hero-title">
+          <span class="hero-title-line">BON CAFÉ</span>
+          <span class="hero-title-amp">&amp;</span>
+          <span class="hero-title-line hero-title-sweets">SWEETS</span>
+        </h1>
+        <p class="hero-tagline" id="hero-tagline">Eat. <em>Celebrate.</em> Repeat.</p>
+        <p class="hero-sub">Gourmet burgers · Artisan sweets · Birthday experiences<br>Rai, Dharchula Road, Pithoragarh,
+          Uttarakhand</p>
+        <div class="hero-actions">
+          <a href="menu.html" class="btn btn-primary" id="hero-menu-btn">
+            Explore Menu <span class="btn-icon">→</span>
+          </a>
+          <a href="birthday.html" class="btn btn-ghost" id="hero-book-btn">
+            🎂 Book Birthday
+          </a>
+        </div>
+        <div class="feature-pills">
+          <div class="feature-pill"><span>🍔</span> Gourmet Burgers</div>
+          <div class="feature-pill"><span>🍕</span> Wood-fired Pizza</div>
+          <div class="feature-pill"><span>🍬</span> Indian Sweets</div>
+          <div class="feature-pill"><span>🥤</span> Milkshakes</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="scroll-indicator" aria-label="Scroll down">
+      <span>SCROLL</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!--  MARQUEE TICKER                                           -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <div class="marquee-track" aria-hidden="true">
+    <div class="marquee-inner">
+      <span class="accent">🍔 BURGERS</span><span>·</span>
+      <span>🥗 ROLLS</span><span>·</span>
+      <span class="accent">🍕 PIZZA</span><span>·</span>
+      <span>🍬 SWEETS</span><span>·</span>
+      <span class="accent">🥤 MILKSHAKES</span><span>·</span>
+      <span>☕ COFFEE</span><span>·</span>
+      <span class="accent">🎂 BIRTHDAY PARTIES</span><span>·</span>
+      <span>🏨 PRIVATE DINING</span><span>·</span>
+      <span class="accent">🍔 BURGERS</span><span>·</span>
+      <span>🥗 ROLLS</span><span>·</span>
+      <span class="accent">🍕 PIZZA</span><span>·</span>
+      <span>🍬 SWEETS</span><span>·</span>
+      <span class="accent">🥤 MILKSHAKES</span><span>·</span>
+      <span>☕ COFFEE</span><span>·</span>
+      <span class="accent">🎂 BIRTHDAY PARTIES</span><span>·</span>
+      <span>🏨 PRIVATE DINING</span><span>·</span>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!--  SECTION 2 — WHY BON CAFÉ                                 -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <section class="section" id="why-section">
+    <div class="section-inner">
+      <div class="split-layout">
+        <div class="reveal-left">
+          <span class="section-tag">Why Choose Us</span>
+          <h2 class="section-title">Pithoragarh's Most <em>Loved</em> Café</h2>
+          <div class="section-divider"></div>
+          <p class="section-subtitle">
+            Nestled in the heart of Pithoragarh, Bon Café & Sweets brings together the finest flavors — from sizzling
+            gourmet burgers to melt-in-your-mouth Indian sweets — all in a warm, vibrant atmosphere you'll never want to
+            leave.
+          </p>
+          <div class="why-features">
+            <div class="why-feature reveal reveal-delay-1">
+              <div class="why-icon">🍔</div>
+              <div>
+                <div class="why-title">Fresh Every Day</div>
+                <div class="why-desc">Every dish made fresh daily from quality ingredients</div>
+              </div>
+            </div>
+            <div class="why-feature reveal reveal-delay-2">
+              <div class="why-icon">🎂</div>
+              <div>
+                <div class="why-title">Celebration Specialists</div>
+                <div class="why-desc">500+ birthdays celebrated with love and flair</div>
+              </div>
+            </div>
+            <div class="why-feature reveal reveal-delay-3">
+              <div class="why-icon">🏔️</div>
+              <div>
+                <div class="why-title">Mountain Vibes</div>
+                <div class="why-desc">Cozy café experience with Himalayan warmth</div>
+              </div>
+            </div>
+            <div class="why-feature reveal reveal-delay-4">
+              <div class="why-icon">⏰</div>
+              <div>
+                <div class="why-title">Open Every Day</div>
+                <div class="why-desc">Mon–Sun, 8:00 AM to 9:40 PM — always here for you</div>
+              </div>
+            </div>
+          </div>
+          <a href="about.html" class="btn btn-primary" style="margin-top:36px;">Our Story →</a>
+        </div>
+        <div class="split-visual reveal-right">
+          <img src="assets/images/cafe_interior.png" alt="Bon Café interior atmosphere" loading="lazy" />
+          <div class="visual-badge">
+            <span class="visual-badge-num">500+</span>
+            <span class="visual-badge-text">Birthdays<br>Celebrated</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!--  SECTION 3 — FEATURED MENU                                -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <section class="section section-dark" id="featured-menu">
+    <div class="section-inner">
+      <div class="section-header-center reveal">
+        <span class="section-tag">What We Serve</span>
+        <h2 class="section-title">Menu <em>Highlights</em></h2>
+        <div class="section-divider" style="margin:20px auto;"></div>
+        <p class="section-subtitle" style="margin:0 auto;">Hand-picked favourites that keep our guests coming back for
+          more</p>
+      </div>
+      <div class="menu-grid featured-grid" style="margin-top:60px;">
+
+        <div class="food-card reveal reveal-delay-1">
+          <div class="food-card-img">
+            <img src="assets/images/hero_burger.png" alt="Bon Special Burger" loading="lazy" />
+            <div class="food-card-badge"><span class="badge badge-best">Bestseller</span></div>
+          </div>
+          <div class="food-card-body">
+            <div class="food-card-name">Bon Special Burger</div>
+            <div class="food-card-desc">Double patty, melted cheese, fresh lettuce, tomato & our signature sauce</div>
+            <div class="food-card-footer">
+              <div class="food-card-price">₹200 <small>/piece</small></div>
+              <button class="food-card-add" aria-label="Add to order">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="food-card reveal reveal-delay-2">
+          <div class="food-card-img">
+            <div class="food-card-img-placeholder">🍕</div>
+            <div class="food-card-badge"><span class="badge badge-hot">Hot</span></div>
+          </div>
+          <div class="food-card-body">
+            <div class="food-card-name">Farmhouse Pizza</div>
+            <div class="food-card-desc">Loaded with capsicum, corn, onion, olives & extra mozzarella</div>
+            <div class="food-card-footer">
+              <div class="food-card-price">₹220 <small>/pizza</small></div>
+              <button class="food-card-add" aria-label="Add to order">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="food-card reveal reveal-delay-3">
+          <div class="food-card-img">
+            <img src="assets/images/milkshake_hero.png" alt="Chocolate Milkshake" loading="lazy" />
+            <div class="food-card-badge"><span class="badge badge-new">New</span></div>
+          </div>
+          <div class="food-card-body">
+            <div class="food-card-name">Choco Overload Shake</div>
+            <div class="food-card-desc">Rich chocolate, whipped cream, brownie bits & chocolate drizzle</div>
+            <div class="food-card-footer">
+              <div class="food-card-price">₹140 <small>/glass</small></div>
+              <button class="food-card-add" aria-label="Add to order">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="food-card reveal reveal-delay-4">
+          <div class="food-card-img">
+            <div class="food-card-img-placeholder">🍬</div>
+          </div>
+          <div class="food-card-body">
+            <div class="food-card-name">Gulab Jamun</div>
+            <div class="food-card-desc">Soft golden dumplings soaked in saffron-rose sugar syrup, served warm</div>
+            <div class="food-card-footer">
+              <div class="food-card-price">₹80 <small>/plate</small></div>
+              <button class="food-card-add" aria-label="Add to order">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="food-card reveal reveal-delay-2">
+          <div class="food-card-img">
+            <div class="food-card-img-placeholder">🥗</div>
+            <div class="food-card-badge"><span class="badge badge-hot">Hot</span></div>
+          </div>
+          <div class="food-card-body">
+            <div class="food-card-name">Paneer Tikka Roll</div>
+            <div class="food-card-desc">Spiced paneer tikka, mint chutney, onions in a crispy paratha roll</div>
+            <div class="food-card-footer">
+              <div class="food-card-price">₹130 <small>/roll</small></div>
+              <button class="food-card-add" aria-label="Add to order">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="food-card reveal reveal-delay-3">
+          <div class="food-card-img">
+            <img src="assets/images/coffee_steam.png" alt="Latte Coffee" loading="lazy" />
+          </div>
+          <div class="food-card-body">
+            <div class="food-card-name">Signature Latte</div>
+            <div class="food-card-desc">Rich espresso with velvety steamed milk & beautiful latte art</div>
+            <div class="food-card-footer">
+              <div class="food-card-price">₹80 <small>/cup</small></div>
+              <button class="food-card-add" aria-label="Add to order">+</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div style="text-align:center;margin-top:50px;" class="reveal">
+        <a href="menu.html" class="btn btn-ghost" style="font-size:1rem;padding:16px 42px;">View Full Menu →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!--  SECTION 4 — BIRTHDAY CTA                                 -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <section class="section birthday-cta-section" id="birthday-cta">
+    <div class="section-inner">
+      <div class="birthday-cta-grid">
+        <div class="birthday-cta-content reveal-left">
+          <span class="section-tag">🎂 Birthday Magic</span>
+          <h2 class="section-title">Make Every Birthday <em>Unforgettable</em></h2>
+          <div class="section-divider"></div>
+          <p class="section-subtitle">
+            From intimate gatherings to big celebrations — we transform your special day into a magical experience with
+            custom decorations, personalized cakes, and curated menus.
+          </p>
+          <ul class="birthday-features">
+            <li>✦ Custom decoration themes</li>
+            <li>✦ Personalized birthday cake</li>
+            <li>✦ Private dining space</li>
+            <li>✦ Photography setup</li>
+            <li>✦ Surprise reveals & confetti</li>
+          </ul>
+          <a href="birthday.html" class="btn btn-golden" style="margin-top:36px;">Book Birthday Party 🎉</a>
+        </div>
+        <div class="birthday-cta-visual reveal-right">
+          <img src="assets/images/birthday_hall.png" alt="Birthday celebration at Bon Café" loading="lazy" />
+          <div class="birthday-floating-elements" aria-hidden="true">
+            <span class="float-emoji f1">🎂</span>
+            <span class="float-emoji f2">🎈</span>
+            <span class="float-emoji f3">✨</span>
+            <span class="float-emoji f4">🎊</span>
+            <span class="float-emoji f5">🎁</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!--  SECTION 5 — STATS                                        -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <section class="section stats-section" id="stats-section">
+    <div class="section-inner">
+      <div class="stats-grid">
+        <div class="stat-card glass-card reveal reveal-delay-1">
+          <div class="stat-number" data-count="500" data-suffix="+">0+</div>
+          <div class="stat-label">Birthdays Celebrated</div>
+        </div>
+        <div class="stat-card glass-card reveal reveal-delay-2">
+          <div class="stat-number" data-count="5000" data-suffix="+">0+</div>
+          <div class="stat-label">Happy Customers</div>
+        </div>
+        <div class="stat-card glass-card reveal reveal-delay-3">
+          <div class="stat-number" data-count="50" data-suffix="+">0+</div>
+          <div class="stat-label">Menu Items</div>
+        </div>
+        <div class="stat-card glass-card reveal reveal-delay-4">
+          <div class="stat-number" data-count="7" data-suffix=" Days">0</div>
+          <div class="stat-label">Open Every Week</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!--  SECTION 6 — GALLERY PREVIEW                              -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <section class="section" id="gallery-preview">
+    <div class="section-inner">
+      <div class="section-header-center reveal">
+        <span class="section-tag">Gallery</span>
+        <h2 class="section-title">A <em>Taste</em> of Bon Café</h2>
+        <div class="section-divider" style="margin: 20px auto;"></div>
+      </div>
+      <div class="gallery-preview-grid reveal">
+        <div class="gallery-prev-item tall">
+          <img src="assets/images/cafe_interior.png" alt="Café Interior" loading="lazy" />
+          <div class="gallery-item-overlay"><span class="gallery-item-label">Ambience</span></div>
+        </div>
+        <div class="gallery-prev-item">
+          <img src="assets/images/hero_burger.png" alt="Gourmet Burger" loading="lazy" />
+          <div class="gallery-item-overlay"><span class="gallery-item-label">Food</span></div>
+        </div>
+        <div class="gallery-prev-item">
+          <img src="assets/images/birthday_hall.png" alt="Birthday Setup" loading="lazy" />
+          <div class="gallery-item-overlay"><span class="gallery-item-label">Celebrations</span></div>
+        </div>
+        <div class="gallery-prev-item wide">
+          <img src="assets/images/food_spread.png" alt="Food Spread" loading="lazy" />
+          <div class="gallery-item-overlay"><span class="gallery-item-label">Food</span></div>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:40px;" class="reveal">
+        <a href="gallery.html" class="btn btn-ghost">View Full Gallery →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!--  SECTION 7 — TESTIMONIALS                                 -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <section class="section section-dark" id="testimonials">
+    <div class="section-inner">
+      <div class="section-header-center reveal">
+        <span class="section-tag">Reviews</span>
+        <h2 class="section-title">What Our Guests <em>Say</em></h2>
+        <div class="section-divider" style="margin:20px auto;"></div>
+      </div>
+      <div class="testimonials-grid" style="margin-top:60px;">
+        <div class="testimonial-card reveal reveal-delay-1">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"Best burger I've ever had in Uttarakhand! The atmosphere is incredible and the
+            birthday setup they did for my daughter was beyond magical. Truly unforgettable!"</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">P</div>
+            <div>
+              <div class="testimonial-name">Priya Sharma</div>
+              <div class="testimonial-role">Pithoragarh · Birthday Booking</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card reveal reveal-delay-2">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"The milkshakes here are absolutely divine! Came once and now it's my weekly
+            ritual. Bon Café is the gem of Pithoragarh that everyone must visit."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">R</div>
+            <div>
+              <div class="testimonial-name">Rohan Bisht</div>
+              <div class="testimonial-role">Pithoragarh · Regular Customer</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card reveal reveal-delay-3">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"We booked the private dining room for our anniversary and it was absolutely
+            perfect. The food, decorations, and service — everything was top-notch!"</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">A</div>
+            <div>
+              <div class="testimonial-name">Anjali Pant</div>
+              <div class="testimonial-role">Dharchula · Anniversary Dinner</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!--  SECTION 8 — CTA BANNER                                   -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <section class="cta-banner reveal" id="cta-banner">
+    <div class="cta-banner-inner">
+      <div class="cta-banner-text">
+        <h2>Ready to <em>Dine?</em></h2>
+        <p>Visit us at Rai, Dharchula Road, Pithoragarh — Open 8 AM to 9:40 PM, Every Day</p>
+      </div>
+      <div class="cta-banner-actions">
+        <a href="contact.html" class="btn btn-golden">Get Directions 📍</a>
+        <a href="birthday.html" class="btn btn-ghost" style="color:var(--cream);">Book a Table 🍽️</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── FOOTER ────────────────────────────────────────── -->
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand-logo">BON <span>CAFÉ</span> & SWEETS</div>
+        <p class="footer-brand-desc">Pithoragarh's finest café experience — where every meal is a celebration and every
+          visit becomes a memory.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram">📸</a>
+          <a href="#" aria-label="Facebook">📘</a>
+          <a href="#" aria-label="WhatsApp">💬</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-heading">Quick Links</div>
+        <ul class="footer-links">
+          <li><a href="menu.html">Our Menu</a></li>
+          <li><a href="birthday.html">Birthday Booking</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="rooms.html">Private Rooms</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-heading">Menu</div>
+        <ul class="footer-links">
+          <li><a href="menu.html#burgers">Burgers</a></li>
+          <li><a href="menu.html#rolls">Rolls</a></li>
+          <li><a href="menu.html#pizza">Pizza</a></li>
+          <li><a href="menu.html#sweets">Sweets</a></li>
+          <li><a href="menu.html#drinks">Drinks</a></li>
+          <li><a href="menu.html#milkshakes">Milkshakes</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-heading">Contact Us</div>
+        <div class="footer-info-item">
+          <span class="icon">📍</span>
+          <span>Rai, Dharchula Road, Pithoragarh, Uttarakhand 262501</span>
+        </div>
+        <div class="footer-info-item">
+          <span class="icon">⏰</span>
+          <span>Monday – Sunday<br>8:00 AM – 9:40 PM</span>
+        </div>
+        <div class="footer-info-item">
+          <span class="icon">📞</span>
+          <span>Contact us on WhatsApp or visit us directly</span>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 <span>Bon Café & Sweets</span>. All rights reserved.</span>
+      <span>Made with ❤️ in Pithoragarh, Uttarakhand</span>
+    </div>
+  </footer>
+
+  <!-- ─── TOAST ─────────────────────────────────────────── -->
+  <div class="toast" id="toast">
+    <div class="toast-title">🎉 Added to Order!</div>
+    <div>Your item has been noted.</div>
+  </div>
+
+  <!-- ─── SCRIPTS ───────────────────────────────────────── -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r161/three.min.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/burger.js"></script>
+  <script src="assets/js/home.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard — Bon Café & Sweets</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black:   #0a0703;
+      --dark:    #111008;
+      --card:    #1a1610;
+      --border:  #2a2218;
+      --orange:  #F4722B;
+      --orange2: #f5a623;
+      --cream:   #f5ede0;
+      --muted:   #8a7a68;
+      --green:   #27ae60;
+      --red:     #e74c3c;
+      --blue:    #3498db;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--black);
+      color: var(--cream);
+      min-height: 100vh;
+    }
+
+    /* ── Top Bar ──────────────────────── */
+    .topbar {
+      background: var(--dark);
+      border-bottom: 1px solid var(--border);
+      padding: 0 32px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .topbar-logo { font-size: 1.1rem; font-weight: 900; letter-spacing: 0.05em; }
+    .topbar-logo span { color: var(--orange); }
+    .topbar-right { display: flex; align-items: center; gap: 16px; }
+    .topbar-tag {
+      background: rgba(39,174,96,0.15);
+      color: var(--green);
+      border: 1px solid rgba(39,174,96,0.3);
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 20px;
+      letter-spacing: 0.08em;
+    }
+    .topbar-refresh {
+      background: var(--orange);
+      color: var(--black);
+      border: none;
+      font-weight: 700;
+      font-size: 0.82rem;
+      padding: 8px 18px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: opacity 0.2s;
+      font-family: inherit;
+    }
+    .topbar-refresh:hover { opacity: 0.85; }
+
+    /* ── Layout ──────────────────────── */
+    .layout { display: flex; min-height: calc(100vh - 64px); }
+
+    /* ── Sidebar ─────────────────────── */
+    .sidebar {
+      width: 220px;
+      background: var(--dark);
+      border-right: 1px solid var(--border);
+      padding: 28px 16px;
+      flex-shrink: 0;
+    }
+    .sidebar-menu { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+    .sidebar-item a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 14px;
+      border-radius: 10px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 500;
+      transition: background 0.2s, color 0.2s;
+    }
+    .sidebar-item a:hover,
+    .sidebar-item a.active {
+      background: rgba(244,114,43,0.12);
+      color: var(--orange);
+    }
+    .sidebar-icon { font-size: 1.1rem; width: 22px; text-align: center; }
+    .sidebar-badge {
+      margin-left: auto;
+      background: var(--orange);
+      color: var(--black);
+      font-size: 0.65rem;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 10px;
+      min-width: 20px;
+      text-align: center;
+    }
+    .sidebar-section-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 20px 14px 8px;
+      opacity: 0.6;
+    }
+
+    /* ── Main Content ─────────────────── */
+    .main { flex: 1; padding: 32px; overflow-y: auto; }
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ── Section Title ────────────────── */
+    .page-header { margin-bottom: 32px; }
+    .page-header h1 { font-size: 1.8rem; font-weight: 800; color: var(--cream); margin-bottom: 6px; }
+    .page-header p { color: var(--muted); font-size: 0.9rem; }
+
+    /* ── Stats Cards ─────────────────── */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-bottom: 36px;
+    }
+    @media(max-width:1100px){ .stats-row { grid-template-columns: repeat(2, 1fr); } }
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px 20px;
+    }
+    .stat-card-icon { font-size: 1.8rem; margin-bottom: 12px; }
+    .stat-card-num {
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: var(--cream);
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .stat-card-label { font-size: 0.8rem; color: var(--muted); font-weight: 500; }
+    .stat-card.accent { border-color: var(--orange); }
+    .stat-card.accent .stat-card-num { color: var(--orange); }
+
+    /* ── Tables ──────────────────────── */
+    .table-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 28px;
+    }
+    .table-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+    .table-title { font-size: 1rem; font-weight: 700; color: var(--cream); }
+    .table-count {
+      font-size: 0.78rem;
+      color: var(--muted);
+      background: rgba(255,255,255,0.05);
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+    table { width: 100%; border-collapse: collapse; }
+    th {
+      text-align: left;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 12px 20px;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    td {
+      padding: 14px 20px;
+      font-size: 0.88rem;
+      color: var(--cream);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      vertical-align: middle;
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .status-badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .status-pending  { background: rgba(243,156,18,0.15);  color: #f39c12; border: 1px solid rgba(243,156,18,0.3); }
+    .status-confirmed{ background: rgba(39,174,96,0.15);   color: var(--green); border: 1px solid rgba(39,174,96,0.3); }
+    .status-cancelled{ background: rgba(231,76,60,0.15);   color: var(--red); border: 1px solid rgba(231,76,60,0.3); }
+
+    .action-btn {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-right: 6px;
+      font-family: inherit;
+    }
+    .action-btn:hover { border-color: var(--orange); color: var(--orange); }
+    .action-btn.confirm { border-color: rgba(39,174,96,0.4); color: var(--green); }
+    .action-btn.confirm:hover { background: rgba(39,174,96,0.1); }
+    .action-btn.cancel { border-color: rgba(231,76,60,0.4); color: var(--red); }
+    .action-btn.cancel:hover { background: rgba(231,76,60,0.1); }
+
+    .no-data {
+      text-align: center;
+      padding: 48px 20px;
+      color: var(--muted);
+    }
+    .no-data-icon { font-size: 3rem; margin-bottom: 12px; }
+    .no-data-text { font-size: 0.9rem; }
+
+    /* ── Toast ───────────────────────── */
+    #admin-toast {
+      position: fixed;
+      bottom: 24px; right: 24px;
+      background: var(--green);
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.88rem;
+      padding: 14px 22px;
+      border-radius: 12px;
+      z-index: 999;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.3s, transform 0.3s;
+      pointer-events: none;
+    }
+    #admin-toast.show { opacity: 1; transform: translateY(0); }
+
+    /* Responsive hide sidebar on small screens */
+    @media(max-width:700px){
+      .sidebar { display: none; }
+      .stats-row { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Top Bar ────────────────────────────── -->
+<div class="topbar">
+  <div class="topbar-logo">BON <span>CAFÉ</span> &amp; SWEETS — Admin</div>
+  <div class="topbar-right">
+    <span class="topbar-tag">● DEMO MODE</span>
+    <button class="topbar-refresh" onclick="loadAll()">↻ Refresh</button>
+  </div>
+</div>
+
+<div class="layout">
+  <!-- ── Sidebar ───────────────────────── -->
+  <nav class="sidebar">
+    <ul class="sidebar-menu">
+      <li class="sidebar-item">
+        <a href="#" onclick="showPage('overview')" class="active" id="nav-overview">
+          <span class="sidebar-icon">📊</span> Overview
+        </a>
+      </li>
+      <div class="sidebar-section-label">Bookings</div>
+      <li class="sidebar-item">
+        <a href="#" onclick="showPage('birthdays')" id="nav-birthdays">
+          <span class="sidebar-icon">🎂</span> Birthdays
+          <span class="sidebar-badge" id="badge-bday">0</span>
+        </a>
+      </li>
+      <li class="sidebar-item">
+        <a href="#" onclick="showPage('rooms')" id="nav-rooms">
+          <span class="sidebar-icon">🏨</span> Rooms
+          <span class="sidebar-badge" id="badge-rooms">0</span>
+        </a>
+      </li>
+      <div class="sidebar-section-label">Communication</div>
+      <li class="sidebar-item">
+        <a href="#" onclick="showPage('contacts')" id="nav-contacts">
+          <span class="sidebar-icon">📩</span> Messages
+          <span class="sidebar-badge" id="badge-contacts">0</span>
+        </a>
+      </li>
+      <div class="sidebar-section-label">Website</div>
+      <li class="sidebar-item">
+        <a href="/" target="_blank">
+          <span class="sidebar-icon">🌐</span> View Site
+        </a>
+      </li>
+      <li class="sidebar-item">
+        <a href="/api/health" target="_blank">
+          <span class="sidebar-icon">🔌</span> API Status
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- ── Main Content ──────────────────── -->
+  <main class="main">
+
+    <!-- OVERVIEW PAGE -->
+    <div class="page active" id="page-overview">
+      <div class="page-header">
+        <h1>Dashboard Overview</h1>
+        <p>All bookings and messages at a glance — updated live from your backend.</p>
+      </div>
+
+      <div class="stats-row" id="stats-row">
+        <div class="stat-card">
+          <div class="stat-card-icon">📩</div>
+          <div class="stat-card-num" id="stat-contacts">–</div>
+          <div class="stat-card-label">Contact Messages</div>
+        </div>
+        <div class="stat-card accent">
+          <div class="stat-card-icon">🎂</div>
+          <div class="stat-card-num" id="stat-bday">–</div>
+          <div class="stat-card-label">Birthday Bookings</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-icon">🏨</div>
+          <div class="stat-card-num" id="stat-rooms">–</div>
+          <div class="stat-card-label">Room Bookings</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-icon">⏳</div>
+          <div class="stat-card-num" id="stat-pending">–</div>
+          <div class="stat-card-label">Pending (All)</div>
+        </div>
+      </div>
+
+      <!-- Recent Bookings -->
+      <div class="table-box">
+        <div class="table-header">
+          <div class="table-title">Recent Activity</div>
+          <div class="table-count" id="recent-count">All bookings</div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Type</th><th>Name</th><th>Phone</th><th>Date</th><th>Status</th><th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="recent-tbody">
+            <tr><td colspan="6"><div class="no-data"><div class="no-data-icon">⏳</div><div class="no-data-text">Loading…</div></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- BIRTHDAYS PAGE -->
+    <div class="page" id="page-birthdays">
+      <div class="page-header">
+        <h1>🎂 Birthday Bookings</h1>
+        <p>All birthday party requests from the website.</p>
+      </div>
+      <div class="table-box">
+        <div class="table-header">
+          <div class="table-title">Birthday Bookings</div>
+          <div class="table-count" id="bday-count">Loading…</div>
+        </div>
+        <table>
+          <thead>
+            <tr><th>Name</th><th>Phone</th><th>Date</th><th>Time</th><th>Guests</th><th>Theme</th><th>Status</th><th>Actions</th></tr>
+          </thead>
+          <tbody id="bday-tbody">
+            <tr><td colspan="8"><div class="no-data"><div class="no-data-icon">⏳</div><div class="no-data-text">Loading…</div></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ROOMS PAGE -->
+    <div class="page" id="page-rooms">
+      <div class="page-header">
+        <h1>🏨 Room Bookings</h1>
+        <p>All hall and private dining room requests.</p>
+      </div>
+      <div class="table-box">
+        <div class="table-header">
+          <div class="table-title">Room Bookings</div>
+          <div class="table-count" id="rooms-count">Loading…</div>
+        </div>
+        <table>
+          <thead>
+            <tr><th>Name</th><th>Phone</th><th>Room</th><th>Date</th><th>Guests</th><th>Occasion</th><th>Status</th><th>Actions</th></tr>
+          </thead>
+          <tbody id="rooms-tbody">
+            <tr><td colspan="8"><div class="no-data"><div class="no-data-icon">⏳</div><div class="no-data-text">Loading…</div></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- CONTACTS PAGE -->
+    <div class="page" id="page-contacts">
+      <div class="page-header">
+        <h1>📩 Contact Messages</h1>
+        <p>Messages sent via the contact form on the website.</p>
+      </div>
+      <div class="table-box">
+        <div class="table-header">
+          <div class="table-title">Contact Messages</div>
+          <div class="table-count" id="contacts-count">Loading…</div>
+        </div>
+        <table>
+          <thead>
+            <tr><th>Name</th><th>Subject</th><th>Message</th><th>Phone</th><th>Email</th><th>Date</th></tr>
+          </thead>
+          <tbody id="contacts-tbody">
+            <tr><td colspan="6"><div class="no-data"><div class="no-data-icon">⏳</div><div class="no-data-text">Loading…</div></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- Toast -->
+<div id="admin-toast">✅ Updated!</div>
+
+<script>
+'use strict';
+
+/* ── Page Navigation ──────────────────── */
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.sidebar-item a').forEach(a => a.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  const navEl = document.getElementById('nav-' + name);
+  if (navEl) navEl.classList.add('active');
+}
+
+/* ── Toast ────────────────────────────── */
+function showToast(msg, color = '#27ae60') {
+  const t = document.getElementById('admin-toast');
+  t.textContent = msg;
+  t.style.background = color;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+/* ── Format date ──────────────────────── */
+function fmtDate(iso) {
+  if (!iso) return '–';
+  try {
+    return new Date(iso).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' });
+  } catch { return iso; }
+}
+
+/* ── Status Badge ─────────────────────── */
+function statusBadge(status) {
+  const cls = status === 'confirmed' ? 'status-confirmed'
+            : status === 'cancelled' ? 'status-cancelled'
+            : 'status-pending';
+  return `<span class="status-badge ${cls}">${status}</span>`;
+}
+
+/* ── Action Buttons ───────────────────── */
+function actionBtns(type, id, status) {
+  if (status === 'confirmed') {
+    return `<button class="action-btn cancel" onclick="updateStatus('${type}','${id}','cancelled')">Cancel</button>`;
+  }
+  if (status === 'cancelled') {
+    return `<button class="action-btn confirm" onclick="updateStatus('${type}','${id}','confirmed')">Restore</button>`;
+  }
+  return `
+    <button class="action-btn confirm" onclick="updateStatus('${type}','${id}','confirmed')">✓ Confirm</button>
+    <button class="action-btn cancel" onclick="updateStatus('${type}','${id}','cancelled')">✕ Cancel</button>
+  `;
+}
+
+/* ── Update Status ────────────────────── */
+async function updateStatus(type, id, status) {
+  try {
+    const res = await fetch(`/api/bookings/${type}/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status }),
+    });
+    if (res.ok) {
+      showToast(`✅ Booking ${status}!`);
+      setTimeout(loadAll, 500);
+    }
+  } catch(e) {
+    showToast('⚠️ Could not update (is server running?)', '#e74c3c');
+  }
+}
+
+/* ── Load Stats ───────────────────────── */
+async function loadStats() {
+  try {
+    const res  = await fetch('/api/stats');
+    const data = await res.json();
+    if (!data.success) return;
+    const s = data.stats;
+    document.getElementById('stat-contacts').textContent = s.totalContacts;
+    document.getElementById('stat-bday').textContent     = s.totalBirthdayBooks;
+    document.getElementById('stat-rooms').textContent    = s.totalRoomBooks;
+    document.getElementById('stat-pending').textContent  = (s.pendingBirthdays||0) + (s.pendingRooms||0);
+    document.getElementById('badge-contacts').textContent= s.unreadContacts || 0;
+    document.getElementById('badge-bday').textContent    = s.pendingBirthdays || 0;
+    document.getElementById('badge-rooms').textContent   = s.pendingRooms || 0;
+  } catch {}
+}
+
+/* ── Load Recent (all bookings) ───────── */
+async function loadRecent() {
+  const tbody = document.getElementById('recent-tbody');
+  try {
+    const res  = await fetch('/api/bookings');
+    const data = await res.json();
+    document.getElementById('recent-count').textContent = `${data.total} total`;
+    if (!data.data.length) {
+      tbody.innerHTML = `<tr><td colspan="6"><div class="no-data"><div class="no-data-icon">📋</div><div class="no-data-text">No bookings yet — they'll appear here when customers use the website!</div></div></td></tr>`;
+      return;
+    }
+    tbody.innerHTML = data.data.slice(0, 15).map(b => `
+      <tr>
+        <td>${b.type === 'birthday' ? '🎂 Birthday' : '🏨 Room'}</td>
+        <td><strong>${b.name}</strong></td>
+        <td>${b.phone}</td>
+        <td>${fmtDate(b.date)}</td>
+        <td>${statusBadge(b.status)}</td>
+        <td>${actionBtns(b.type, b.id, b.status)}</td>
+      </tr>
+    `).join('');
+  } catch {
+    tbody.innerHTML = `<tr><td colspan="6"><div class="no-data"><div class="no-data-icon">⚠️</div><div class="no-data-text">Could not load data. Make sure the server is running on port 3000.</div></div></td></tr>`;
+  }
+}
+
+/* ── Load Birthday Bookings ───────────── */
+async function loadBirthdays() {
+  const tbody = document.getElementById('bday-tbody');
+  try {
+    const res  = await fetch('/api/bookings/birthday');
+    const data = await res.json();
+    document.getElementById('bday-count').textContent = `${data.total} bookings`;
+    if (!data.data.length) {
+      tbody.innerHTML = `<tr><td colspan="8"><div class="no-data"><div class="no-data-icon">🎂</div><div class="no-data-text">No birthday bookings yet!</div></div></td></tr>`;
+      return;
+    }
+    tbody.innerHTML = data.data.map(b => `
+      <tr>
+        <td><strong>${b.name}</strong></td>
+        <td>${b.phone}</td>
+        <td>${fmtDate(b.date)}</td>
+        <td>${b.time || '–'}</td>
+        <td>${b.guests}</td>
+        <td>${b.theme || '–'}</td>
+        <td>${statusBadge(b.status)}</td>
+        <td>${actionBtns('birthday', b.id, b.status)}</td>
+      </tr>
+    `).join('');
+  } catch {
+    tbody.innerHTML = `<tr><td colspan="8"><div class="no-data"><div class="no-data-icon">⚠️</div><div class="no-data-text">Server not reachable.</div></div></td></tr>`;
+  }
+}
+
+/* ── Load Room Bookings ───────────────── */
+async function loadRooms() {
+  const tbody = document.getElementById('rooms-tbody');
+  try {
+    const res  = await fetch('/api/bookings/room');
+    const data = await res.json();
+    document.getElementById('rooms-count').textContent = `${data.total} bookings`;
+    if (!data.data.length) {
+      tbody.innerHTML = `<tr><td colspan="8"><div class="no-data"><div class="no-data-icon">🏨</div><div class="no-data-text">No room bookings yet!</div></div></td></tr>`;
+      return;
+    }
+    tbody.innerHTML = data.data.map(b => `
+      <tr>
+        <td><strong>${b.name}</strong></td>
+        <td>${b.phone}</td>
+        <td>${b.room}</td>
+        <td>${fmtDate(b.date)}</td>
+        <td>${b.guests}</td>
+        <td>${b.occasion || '–'}</td>
+        <td>${statusBadge(b.status)}</td>
+        <td>${actionBtns('room', b.id, b.status)}</td>
+      </tr>
+    `).join('');
+  } catch {
+    tbody.innerHTML = `<tr><td colspan="8"><div class="no-data"><div class="no-data-icon">⚠️</div><div class="no-data-text">Server not reachable.</div></div></td></tr>`;
+  }
+}
+
+/* ── Load Contacts ────────────────────── */
+async function loadContacts() {
+  const tbody = document.getElementById('contacts-tbody');
+  try {
+    const res  = await fetch('/api/contact');
+    const data = await res.json();
+    document.getElementById('contacts-count').textContent = `${data.total} messages`;
+    if (!data.data.length) {
+      tbody.innerHTML = `<tr><td colspan="6"><div class="no-data"><div class="no-data-icon">📩</div><div class="no-data-text">No contact messages yet!</div></div></td></tr>`;
+      return;
+    }
+    tbody.innerHTML = data.data.map(c => `
+      <tr>
+        <td><strong>${c.name}</strong></td>
+        <td>${c.subject}</td>
+        <td style="max-width:260px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${c.message}</td>
+        <td>${c.phone || '–'}</td>
+        <td>${c.email || '–'}</td>
+        <td style="color:var(--muted);font-size:0.8rem;">${fmtDate(c.createdAt)}</td>
+      </tr>
+    `).join('');
+  } catch {
+    tbody.innerHTML = `<tr><td colspan="6"><div class="no-data"><div class="no-data-icon">⚠️</div><div class="no-data-text">Server not reachable.</div></div></td></tr>`;
+  }
+}
+
+/* ── Load All ─────────────────────────── */
+function loadAll() {
+  loadStats();
+  loadRecent();
+  loadBirthdays();
+  loadRooms();
+  loadContacts();
+}
+
+// Initial load
+loadAll();
+// Auto-refresh every 30s
+setInterval(loadAll, 30000);
+</script>
+</body>
+</html>

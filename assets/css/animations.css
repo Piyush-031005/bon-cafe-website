@@ -1,0 +1,116 @@
+/* ================================================================
+   BON CAFÉ — ANIMATIONS v2
+   Clean, physical animations — NO glow, NO neon
+   All transitions feel weighted and real
+   ================================================================ */
+
+/* ── SECTION REVEAL ──────────────────────────────────────── */
+/* handled in main.css */
+
+/* ── MARQUEE ─────────────────────────────────────────────── */
+/* handled in main.css */
+
+/* ── FLOAT EMOJIS ────────────────────────────────────────── */
+/* handled in main.css */
+
+/* ── STAT NUMBER COUNT-UP ────────────────────────────────── */
+.stat-number { transition: none; } /* JS drives this */
+
+/* ── FOOD CARD 3D TILT ───────────────────────────────────── */
+/* Subtle depth without glow — JS applies rotateX/Y */
+.food-card { transform-style: preserve-3d; }
+
+/* ── SMOOTH HOVER TRANSITIONS ────────────────────────────── */
+* { transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1); }
+
+/* ── PAGE TRANSITION ─────────────────────────────────────── */
+.page-transition {
+  transition: transform 0.5s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+/* ── LOADER BAR ──────────────────────────────────────────── */
+@keyframes loaderFill { from { width: 0; } to { width: 100%; } }
+
+/* ── FLOATING SPICES (burger dismantle FX) ───────────────── */
+.spice-dot {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  /* JS animates these with GSAP */
+}
+
+/* ── NAV LINK UNDERLINE SWEEP ────────────────────────────── */
+.nav-links a {
+  position: relative;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 12px;
+  right: 12px;
+  height: 2px;
+  background: var(--orange);
+  transform: scaleX(0);
+  transition: transform 0.25s ease;
+}
+.nav-links a:hover::after { transform: scaleX(1); }
+.nav-links a.nav-cta::after { display: none; }
+
+/* ── BUTTON PRESS ────────────────────────────────────────── */
+.btn:active { transform: scale(0.97) !important; }
+
+/* ── GALLERY GRID ENTRANCE ───────────────────────────────── */
+.gallery-prev-item {
+  transition: transform 0.4s ease;
+}
+.gallery-prev-item:hover { transform: scale(1.02); }
+
+/* ── FEATURE PILL HOVER ──────────────────────────────────── */
+.feature-pill {
+  transition: border-color 0.25s, color 0.25s, background 0.25s;
+}
+
+/* ── TESTIMONIAL CARD ────────────────────────────────────── */
+.testimonial-card {
+  transition: border-color 0.3s ease, transform 0.3s ease;
+}
+
+/* ── SCROLL INDICATOR ────────────────────────────────────── */
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.4; transform: scaleY(1); }
+  50%       { opacity: 0.9; transform: scaleY(1.1); }
+}
+
+/* ── WHY FEATURE HOVER ───────────────────────────────────── */
+.why-feature { transition: border-color 0.3s, background 0.3s, transform 0.3s; }
+.why-feature:hover { transform: translateX(6px); }
+
+/* ── FOOTER SOCIAL ───────────────────────────────────────── */
+.footer-social a { transition: background 0.2s, border-color 0.2s, transform 0.2s; }
+.footer-social a:hover { transform: translateY(-3px); }
+
+/* ── DOT PULSE ───────────────────────────────────────────── */
+@keyframes dotPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.7); }
+}
+
+/* ── MOBILE MENU LINKS ───────────────────────────────────── */
+.mobile-menu a {
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+.mobile-menu a:hover {
+  transform: translateX(8px);
+}
+
+/* ── STAT CARD HOVER ─────────────────────────────────────── */
+.stat-card { transition: border-color 0.3s, transform 0.3s; }
+
+/* ── SPLIT VISUAL ────────────────────────────────────────── */
+.split-visual { transition: transform 0.3s; }
+.split-visual img { transition: transform 0.6s ease; }
+
+/* ── BIRTHDAY CTA VISUAL ─────────────────────────────────── */
+.birthday-cta-visual img { transition: transform 0.6s ease; }
+.birthday-cta-visual:hover img { transform: scale(1.04); }

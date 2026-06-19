@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Private Rooms & Hall Booking — Bon Café & Sweets | Pithoragarh</title>
+  <meta name="description" content="Book private dining halls and event spaces at Bon Café & Sweets, Pithoragarh. Perfect for birthdays, anniversaries, corporate events and family gatherings." />
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <link rel="stylesheet" href="assets/css/animations.css" />
+  <link rel="stylesheet" href="assets/css/components.css" />
+  <style>
+    .rooms-hero { min-height:52vh; background:linear-gradient(135deg,#1A0A00,#2D1500,#1A0A00); display:flex; align-items:flex-end; padding:0 80px 70px; padding-top:120px; position:relative; overflow:hidden; }
+    .rooms-hero::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 30% 50%,rgba(255,212,71,0.15),transparent 60%); }
+    .rooms-hero h1 { font-family:var(--font-display); font-size:clamp(3rem,7vw,5.5rem); color:var(--cream); line-height:1; position:relative; z-index:1; margin-bottom:14px; }
+    .rooms-hero h1 span { color:var(--golden); }
+    .rooms-hero p { color:rgba(255,245,220,0.55); font-size:0.95rem; position:relative; z-index:1; }
+
+    .rooms-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(360px,1fr)); gap:32px; margin-bottom:80px; }
+
+    .room-availability { display:inline-flex; align-items:center; gap:8px; padding:6px 16px; border-radius:20px; font-size:0.78rem; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; }
+    .available { background:rgba(76,175,80,0.15); border:1px solid rgba(76,175,80,0.3); color:#81C784; }
+    .limited   { background:rgba(255,152,0,0.15); border:1px solid rgba(255,152,0,0.3); color:#FFB74D; }
+
+    .capacity-bar { height:4px; background:rgba(255,245,220,0.08); border-radius:2px; margin-top:12px; overflow:hidden; }
+    .capacity-fill { height:100%; background:var(--grad-orange); border-radius:2px; transition:width 1s ease; }
+
+    /* Booking Form */
+    .booking-form-wrapper { max-width:700px; margin:0 auto; }
+    .room-booking-form { background:var(--glass-bg); border:1px solid var(--glass-border); border-radius:24px; padding:50px; backdrop-filter:blur(20px); }
+    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+
+    @media(max-width:768px) {
+      .rooms-hero { padding:100px 20px 50px; }
+      .rooms-grid { grid-template-columns:1fr; }
+      .form-row { grid-template-columns:1fr; }
+      .room-booking-form { padding:30px 20px; }
+    }
+  </style>
+</head>
+<body>
+<div id="page-loader"><div class="loader-logo">BON <span>CAFÉ</span></div><div class="loader-bar"><div class="loader-fill"></div></div></div>
+<div id="cursor-dot"></div><div id="cursor-ring"></div>
+
+<nav id="navbar">
+  <a href="index.html" class="nav-logo">BON <span>CAFÉ</span> & SWEETS</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li><li><a href="menu.html">Menu</a></li>
+    <li><a href="birthday.html">Birthday</a></li><li><a href="gallery.html">Gallery</a></li>
+    <li><a href="rooms.html" style="color:var(--bon-orange)">Rooms</a></li><li><a href="about.html">About</a></li>
+    <li><a href="birthday.html" class="nav-cta">Book Now</a></li>
+  </ul>
+  <div class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+  <button class="mobile-close" id="mobile-close">✕</button>
+  <a href="index.html">Home</a><a href="menu.html">Menu</a><a href="birthday.html">Birthday</a>
+  <a href="gallery.html">Gallery</a><a href="rooms.html">Rooms</a><a href="about.html">About</a>
+</div>
+
+<!-- HERO -->
+<div class="rooms-hero">
+  <div style="position:relative;z-index:1;">
+    <span class="section-tag">🏨 Private Spaces</span>
+    <h1>Private Rooms <span>&</span><br>Event Halls</h1>
+    <p>Exclusive spaces for your most cherished moments — intimate or grand, we have you covered</p>
+  </div>
+</div>
+
+<!-- ROOM CARDS -->
+<section class="section">
+  <div class="section-inner">
+    <div class="section-header-center reveal" style="margin-bottom:60px;">
+      <span class="section-tag">Our Spaces</span>
+      <h2 class="section-title">Choose Your <em>Perfect</em> Space</h2>
+      <p class="section-subtitle" style="margin:0 auto;">Every room is designed for unforgettable moments, with complete customization available</p>
+    </div>
+    <div class="rooms-grid">
+
+      <!-- Room 1 -->
+      <div class="room-card tilt-card reveal reveal-delay-1">
+        <div class="room-card-img">
+          <img src="assets/images/birthday_hall.png" alt="Garden Hall" loading="lazy" />
+          <div style="position:absolute;top:16px;right:16px;z-index:2;"><span class="room-availability available">● Available</span></div>
+        </div>
+        <div class="room-card-body">
+          <div class="room-card-title">🌺 Garden Hall</div>
+          <div class="room-card-desc">Our largest event space, perfect for grand birthday celebrations, family gatherings and corporate events. Features a dedicated dance area and décor setup.</div>
+          <div class="room-amenities">
+            <div class="amenity-tag"><span>👥</span> Up to 60 Guests</div>
+            <div class="amenity-tag"><span>🎨</span> Custom Décor</div>
+            <div class="amenity-tag"><span>🎵</span> Music System</div>
+            <div class="amenity-tag"><span>📸</span> Photo Backdrop</div>
+            <div class="amenity-tag"><span>❄️</span> AC</div>
+            <div class="amenity-tag"><span>🎂</span> Cake Service</div>
+          </div>
+          <div style="margin-bottom:8px;font-size:0.8rem;color:rgba(255,245,220,0.4);">Capacity</div>
+          <div class="capacity-bar"><div class="capacity-fill" style="width:100%;"></div></div>
+          <div style="margin-top:20px;">
+            <a href="#booking-form" class="btn btn-primary" style="width:100%;justify-content:center;">Book Garden Hall →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Room 2 -->
+      <div class="room-card tilt-card reveal reveal-delay-2">
+        <div class="room-card-img">
+          <div class="room-card-img-placeholder" style="background:linear-gradient(135deg,rgba(244,114,43,0.25),rgba(255,212,71,0.1));">🕯️</div>
+          <div style="position:absolute;top:16px;right:16px;z-index:2;"><span class="room-availability available">● Available</span></div>
+        </div>
+        <div class="room-card-body">
+          <div class="room-card-title">🕯️ Private Dining Room</div>
+          <div class="room-card-desc">An intimate, elegantly decorated room for romantic dinners, small birthday parties and anniversary celebrations. Pure candlelit ambience.</div>
+          <div class="room-amenities">
+            <div class="amenity-tag"><span>👥</span> 5–20 Guests</div>
+            <div class="amenity-tag"><span>🕯️</span> Candlelit</div>
+            <div class="amenity-tag"><span>🌹</span> Flower Setup</div>
+            <div class="amenity-tag"><span>🍽️</span> Personal Waiter</div>
+            <div class="amenity-tag"><span>❄️</span> AC</div>
+          </div>
+          <div style="margin-bottom:8px;font-size:0.8rem;color:rgba(255,245,220,0.4);">Capacity</div>
+          <div class="capacity-bar"><div class="capacity-fill" style="width:35%;"></div></div>
+          <div style="margin-top:20px;">
+            <a href="#booking-form" class="btn btn-primary" style="width:100%;justify-content:center;">Book Private Room →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Room 3 -->
+      <div class="room-card tilt-card reveal reveal-delay-3">
+        <div class="room-card-img">
+          <div class="room-card-img-placeholder" style="background:linear-gradient(135deg,rgba(255,212,71,0.12),rgba(244,114,43,0.08));">🌄</div>
+          <div style="position:absolute;top:16px;right:16px;z-index:2;"><span class="room-availability limited">● Limited Slots</span></div>
+        </div>
+        <div class="room-card-body">
+          <div class="room-card-title">🌄 Rooftop Terrace</div>
+          <div class="room-card-desc">Open-air rooftop with stunning Himalayan mountain views. Ideal for sunset dinners, sunrise breakfast events and special celebrations under the stars.</div>
+          <div class="room-amenities">
+            <div class="amenity-tag"><span>👥</span> Up to 40 Guests</div>
+            <div class="amenity-tag"><span>🏔️</span> Mountain View</div>
+            <div class="amenity-tag"><span>⭐</span> Open Air</div>
+            <div class="amenity-tag"><span>💡</span> Fairy Lights</div>
+            <div class="amenity-tag"><span>🎵</span> Bluetooth Speaker</div>
+          </div>
+          <div style="margin-bottom:8px;font-size:0.8rem;color:rgba(255,245,220,0.4);">Capacity</div>
+          <div class="capacity-bar"><div class="capacity-fill" style="width:70%;"></div></div>
+          <div style="margin-top:20px;">
+            <a href="#booking-form" class="btn btn-golden" style="width:100%;justify-content:center;">Book Rooftop →</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- What's Included -->
+    <div class="section-header-center reveal" style="margin-bottom:40px;">
+      <span class="section-tag">Package Includes</span>
+      <h2 class="section-title">Everything You <em>Need</em></h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;margin-bottom:80px;">
+      <div class="info-card reveal reveal-delay-1"><div class="info-card-icon">🎨</div><div><div class="info-card-title">Full Decoration</div><div class="info-card-text">Custom theme decoration with balloons, streamers & centerpieces</div></div></div>
+      <div class="info-card reveal reveal-delay-2"><div class="info-card-icon">🎂</div><div><div class="info-card-title">Birthday Cake</div><div class="info-card-text">Personalized cake with your message, flavor of choice</div></div></div>
+      <div class="info-card reveal reveal-delay-3"><div class="info-card-icon">📸</div><div><div class="info-card-title">Photo Backdrop</div><div class="info-card-text">Beautiful branded photo area for memorable pictures</div></div></div>
+      <div class="info-card reveal reveal-delay-4"><div class="info-card-icon">🍽️</div><div><div class="info-card-title">Curated Menu</div><div class="info-card-text">Exclusive menu package from our full menu selection</div></div></div>
+      <div class="info-card reveal reveal-delay-1"><div class="info-card-icon">🎵</div><div><div class="info-card-title">Music & Sound</div><div class="info-card-text">Bluetooth music system or DJ hookup available</div></div></div>
+      <div class="info-card reveal reveal-delay-2"><div class="info-card-icon">👤</div><div><div class="info-card-title">Dedicated Host</div><div class="info-card-text">Personal waiter & event coordinator assigned to your party</div></div></div>
+    </div>
+
+    <!-- BOOKING FORM -->
+    <div id="booking-form" class="booking-form-wrapper">
+      <div class="room-booking-form reveal">
+        <div style="text-align:center;margin-bottom:36px;">
+          <span class="section-tag">Reserve Your Space</span>
+          <h3 style="font-family:var(--font-heading);font-size:1.8rem;color:var(--cream);margin-top:12px;">Book a <span style="color:var(--bon-orange)">Private Room</span></h3>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Your Name *</label>
+            <input type="text" class="form-input" id="room-name" placeholder="Full name" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phone Number *</label>
+            <input type="tel" class="form-input" id="room-phone" placeholder="+91 XXXXX XXXXX" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Event Date *</label>
+            <input type="date" class="form-input" id="room-date" min="" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Event Time *</label>
+            <select class="form-select" id="room-time">
+              <option value="">Select time slot</option>
+              <option>10:00 AM</option><option>12:00 PM</option>
+              <option>2:00 PM</option><option>4:00 PM</option>
+              <option>6:00 PM</option><option>7:30 PM</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Number of Guests *</label>
+            <input type="number" class="form-input" id="room-guests" min="5" max="60" placeholder="e.g. 25" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Room / Space *</label>
+            <select class="form-select" id="room-type">
+              <option value="">Select a space</option>
+              <option>🌺 Garden Hall (up to 60 guests)</option>
+              <option>🕯️ Private Dining Room (5–20 guests)</option>
+              <option>🌄 Rooftop Terrace (up to 40 guests)</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Event Type</label>
+          <select class="form-select" id="room-event">
+            <option value="">Select event type</option>
+            <option>🎂 Birthday Party</option>
+            <option>💑 Anniversary Dinner</option>
+            <option>👨‍👩‍👧‍👦 Family Gathering</option>
+            <option>🏢 Corporate Event</option>
+            <option>💍 Engagement Celebration</option>
+            <option>🎓 Farewell / Graduation</option>
+            <option>🎊 Other Celebration</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Special Requests</label>
+          <textarea class="form-textarea" id="room-notes" placeholder="Decoration preferences, menu requirements, surprises, dietary needs..."></textarea>
+        </div>
+        <button class="btn btn-primary" id="room-submit" style="width:100%;justify-content:center;font-size:1rem;padding:18px;">Confirm Room Booking 🎉</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="toast" id="toast"><div class="toast-title" id="toast-title">✅ Done!</div><div id="toast-msg">Room booked!</div></div>
+
+<footer>
+  <div class="footer-grid">
+    <div><div class="footer-brand-logo">BON <span>CAFÉ</span> & SWEETS</div><p class="footer-brand-desc">Pithoragarh's finest café experience.</p><div class="footer-social"><a href="#">📸</a><a href="#">📘</a><a href="#">💬</a></div></div>
+    <div><div class="footer-heading">Quick Links</div><ul class="footer-links"><li><a href="menu.html">Menu</a></li><li><a href="birthday.html">Birthday</a></li><li><a href="gallery.html">Gallery</a></li><li><a href="about.html">About</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    <div><div class="footer-heading">Visit Us</div><div class="footer-info-item"><span class="icon">📍</span><span>Rai, Dharchula Road, Pithoragarh 262501</span></div><div class="footer-info-item"><span class="icon">⏰</span><span>Every Day · 8:00 AM – 9:40 PM</span></div></div>
+    <div></div>
+  </div>
+  <div class="footer-bottom"><span>© 2024 <span>Bon Café & Sweets</span>.</span><span>Made with ❤️ in Pithoragarh</span></div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/rooms.js"></script>
+</body>
+</html>

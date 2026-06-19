@@ -1,0 +1,406 @@
+/* ================================================================
+   BON CAFÉ — HOME PAGE CSS v2
+   Realistic food poster hero — orange/cream/espresso
+   NO glow, NO neon — clean bold print design
+   ================================================================ */
+
+/* ── HERO ────────────────────────────────────────────────── */
+#hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  background: var(--espresso);  /* dark espresso base */
+}
+
+/* Warm subtle vignette — not glowy */
+#hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 70% 80% at 60% 50%,
+    rgba(244,114,43,0.08) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+/* Canvas for Three.js — minimal subtle grain, no particles */
+#hero-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.08; /* very subtle */
+}
+
+/* ── HERO CONTENT ────────────────────────────────────────── */
+.hero-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 120px clamp(20px, 5vw, 60px) 80px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+@media(max-width: 860px) {
+  .hero-content {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 48px;
+    padding-top: 100px;
+  }
+}
+
+/* ── BURGER STAGE ────────────────────────────────────────── */
+.burger-stage {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  aspect-ratio: 3/4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.burger-wrapper {
+  position: relative;
+  width: 320px;
+  height: 420px;
+  transform-style: preserve-3d;
+  perspective: 800px;
+  z-index: 5;
+}
+
+/* Each burger layer — using real food images */
+.burger-layer {
+  position: absolute;
+  left: 20px;
+  width: 280px;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+.burger-layer img {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 6px 16px rgba(0,0,0,0.65)); /* subtle realistic shadow */
+}
+
+/* Layer positions (stacked burger) */
+.layer-bun-top    { bottom: 330px; z-index: 7; }
+.layer-lettuce    { bottom: 275px; z-index: 6; }
+.layer-tomato     { bottom: 235px; z-index: 5; }
+.layer-cheese     { bottom: 195px; z-index: 4; }
+.layer-patty      { bottom: 145px; z-index: 3; }
+.layer-bun-bottom { bottom: 70px;  z-index: 2; }
+
+/* ── HUD BACKGROUND ──────────────────────────────────────── */
+.hud-circle-container {
+  position: absolute;
+  width: 120%;
+  height: 120%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  transform: scale(0.85);
+  transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.hud-svg {
+  width: 100%;
+  height: 100%;
+}
+.hud-ring {
+  fill: none;
+  stroke: var(--orange);
+  stroke-width: 1;
+  opacity: 0.15;
+  transform-origin: center;
+}
+.ring-outer {
+  stroke-width: 1.5;
+  stroke-dasharray: 200 40;
+  animation: rotateHUD 25s linear infinite;
+}
+.ring-mid {
+  stroke: var(--gold);
+  stroke-dasharray: 100 80;
+  animation: rotateHUDRev 35s linear infinite;
+}
+.ring-inner {
+  stroke-dasharray: 300 20;
+  animation: rotateHUD 15s linear infinite;
+}
+.ring-dashed {
+  stroke: var(--gold);
+  opacity: 0.25;
+}
+.hud-line {
+  stroke: var(--orange);
+  stroke-width: 1;
+  opacity: 0.2;
+}
+
+@keyframes rotateHUD {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes rotateHUDRev {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+
+/* ── HUD LABELS ──────────────────────────────────────────── */
+.hud-label {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 10;
+  transform: scale(0.9);
+  transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1), transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.hud-label.left {
+  flex-direction: row-reverse;
+}
+.hud-label.right {
+  flex-direction: row;
+}
+
+/* Vertical position classes for labels (matching layer dismantle targets) */
+.label-bun-top { top: calc(50% - 210px); left: -65px; }
+.label-lettuce { top: calc(50% - 100px); right: -65px; }
+.label-tomato { top: calc(50% - 40px); left: -65px; }
+.label-cheese { top: calc(50% + 20px); right: -65px; }
+.label-patty { top: calc(50% + 80px); left: -65px; }
+.label-bun-bottom { top: calc(50% + 140px); right: -65px; }
+
+.hud-label-line {
+  height: 1px;
+  background: var(--gold);
+  width: 70px;
+  position: relative;
+  opacity: 0.5;
+}
+.hud-label-line::after {
+  content: '';
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  background: var(--gold);
+  border-radius: 50%;
+  top: -2px;
+}
+.hud-label.left .hud-label-line::after { right: 0; }
+.hud-label.right .hud-label-line::after { left: 0; }
+
+.hud-label-box {
+  background: rgba(10, 10, 10, 0.88);
+  border: 1px solid var(--orange);
+  padding: 6px 12px;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  font-family: monospace;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+  backdrop-filter: blur(4px);
+  width: max-content;
+}
+
+.hud-title {
+  font-size: 0.68rem;
+  color: var(--gold);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+.hud-value {
+  font-size: 0.76rem;
+  color: var(--cream);
+  margin-top: 2px;
+  font-weight: 500;
+}
+
+/* ── SAUCE OVERLAY ───────────────────────────────────────── */
+#sauce-splash-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10000;
+  pointer-events: none;
+  overflow: hidden;
+  background: transparent;
+  display: flex;
+  align-items: flex-start;
+}
+#sauce-splash-overlay svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Spice particles that appear during dismantle */
+.spice-particle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+}
+
+/* ── HERO TEXT ───────────────────────────────────────────── */
+.hero-text-block {}
+
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--orange);
+  border: 1.5px solid rgba(244,114,43,0.35);
+  padding: 7px 16px;
+  border-radius: 30px;
+  margin-bottom: 24px;
+}
+.hero-tag-dot {
+  width: 7px;
+  height: 7px;
+  background: var(--orange);
+  border-radius: 50%;
+  animation: dotPulse 2s ease-in-out infinite;
+}
+@keyframes dotPulse { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 8vw, 7rem);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 0.9;
+  color: var(--cream);
+  margin-bottom: 20px;
+}
+.hero-title-line {
+  display: block;
+  text-transform: uppercase;
+}
+.hero-title-amp {
+  display: block;
+  color: var(--gold);
+  font-size: 0.5em;
+  letter-spacing: 0.1em;
+  margin: 4px 0;
+  font-style: italic;
+}
+.hero-title-sweets { color: var(--orange); }
+
+.hero-tagline {
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 2.5vw, 2rem);
+  font-weight: 600;
+  color: var(--cream);
+  margin-bottom: 16px;
+  line-height: 1.3;
+}
+.hero-tagline em {
+  font-style: italic;
+  color: var(--gold);
+}
+
+.hero-sub {
+  font-family: var(--font-body);
+  font-size: clamp(0.85rem, 1.4vw, 1rem);
+  color: var(--text-muted-dark);
+  line-height: 1.75;
+  margin-bottom: 36px;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+@media(max-width:860px){ .hero-actions{ justify-content: center; } }
+
+/* Feature pills — flat, no glow */
+.feature-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+@media(max-width:860px){ .feature-pills{ justify-content: center; } }
+
+.feature-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-muted-dark);
+  background: rgba(255,245,220,0.06);
+  border: 1px solid var(--border-dark);
+  padding: 7px 14px;
+  border-radius: 30px;
+  transition: border-color 0.2s, color 0.2s;
+}
+.feature-pill:hover {
+  border-color: var(--orange);
+  color: var(--cream);
+}
+
+/* ── WHY SECTION ─────────────────────────────────────────── */
+#why-section { background: var(--bg-light); }
+#why-section .section-title { color: var(--text-on-light); }
+#why-section .section-subtitle { color: var(--text-muted-light); }
+#why-section .section-divider { background: var(--orange); }
+
+/* Why features on cream bg */
+#why-section .why-feature {
+  border-color: var(--border-light);
+  background: rgba(26,10,0,0.04);
+}
+#why-section .why-feature:hover {
+  border-color: var(--orange);
+  background: rgba(244,114,43,0.06);
+}
+#why-section .why-title { color: var(--text-on-light); }
+#why-section .why-desc { color: var(--text-muted-light); }
+
+/* ── FEATURED MENU SECTION ───────────────────────────────── */
+#featured-menu { background: var(--espresso-mid); }
+
+/* ── BIRTHDAY CTA ────────────────────────────────────────── */
+.birthday-cta-section { background: var(--espresso); }
+.birthday-features li { color: var(--text-muted-dark); }
+
+/* ── GALLERY PREVIEW ─────────────────────────────────────── */
+#gallery-preview { background: var(--bg-light); }
+#gallery-preview .section-title { color: var(--text-on-light); }
+#gallery-preview .section-tag { color: var(--orange); border-color: var(--orange); }
+#gallery-preview .section-divider { background: var(--orange); }
+
+/* ── TESTIMONIALS ────────────────────────────────────────── */
+#testimonials { background: var(--espresso-mid); }
+
+/* ── CTA BANNER ──────────────────────────────────────────── */
+.cta-banner { background: var(--orange); }
