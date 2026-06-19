@@ -63,7 +63,7 @@
   position: relative;
   width: 100%;
   max-width: 480px;
-  margin: 0 auto;
+  margin: 60px auto 0; /* shifted lower to prevent clipping */
   aspect-ratio: 3/4;
   display: flex;
   align-items: center;
