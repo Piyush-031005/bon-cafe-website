@@ -80,6 +80,9 @@ function initCursor() {
       ring.style.width   = '52px';
       ring.style.height  = '52px';
       ring.style.opacity = '0.4';
+      if (window.AudioSynth && typeof window.AudioSynth.playTick === 'function') {
+        window.AudioSynth.playTick();
+      }
     });
     el.addEventListener('mouseleave', () => {
       ring.style.width   = '32px';

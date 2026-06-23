@@ -446,6 +446,10 @@
 <!-- Toast -->
 <div id="admin-toast">✅ Updated!</div>
 
+<!-- Supabase SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../../assets/js/supabase-config.js"></script>
+
 <script>
 'use strict';
 
@@ -497,141 +501,167 @@ function actionBtns(type, id, status) {
   `;
 }
 
-/* ── Update Status ────────────────────── */
+/* ── Update Status via Supabase ─────── */
 async function updateStatus(type, id, status) {
+  const db = window._supabase;
+  if (!db) { showToast('⚠️ Supabase not configured', '#e74c3c'); return; }
   try {
-    const res = await fetch(`/api/bookings/${type}/${id}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ status }),
-    });
-    if (res.ok) {
-      showToast(`✅ Booking ${status}!`);
-      setTimeout(loadAll, 500);
-    }
+    const table = type === 'birthday' ? 'birthday_bookings' : 'room_bookings';
+    const { error } = await db.from(table).update({ status }).eq('id', id);
+    if (error) throw error;
+    showToast(`✅ Booking ${status}!`);
+    setTimeout(loadAll, 500);
   } catch(e) {
-    showToast('⚠️ Could not update (is server running?)', '#e74c3c');
+    showToast('⚠️ Could not update: ' + e.message, '#e74c3c');
   }
 }
 
-/* ── Load Stats ───────────────────────── */
+/* ── Load Stats via Supabase ─────────── */
 async function loadStats() {
+  const db = window._supabase;
+  if (!db) return;
   try {
-    const res  = await fetch('/api/stats');
-    const data = await res.json();
-    if (!data.success) return;
-    const s = data.stats;
-    document.getElementById('stat-contacts').textContent = s.totalContacts;
-    document.getElementById('stat-bday').textContent     = s.totalBirthdayBooks;
-    document.getElementById('stat-rooms').textContent    = s.totalRoomBooks;
-    document.getElementById('stat-pending').textContent  = (s.pendingBirthdays||0) + (s.pendingRooms||0);
-    document.getElementById('badge-contacts').textContent= s.unreadContacts || 0;
-    document.getElementById('badge-bday').textContent    = s.pendingBirthdays || 0;
-    document.getElementById('badge-rooms').textContent   = s.pendingRooms || 0;
-  } catch {}
+    const [c, b, r] = await Promise.all([
+      db.from('contacts').select('id, read', { count: 'exact' }),
+      db.from('birthday_bookings').select('id, status', { count: 'exact' }),
+      db.from('room_bookings').select('id, status', { count: 'exact' }),
+    ]);
+    const totalContacts = c.count  || 0;
+    const totalBday     = b.count  || 0;
+    const totalRooms    = r.count  || 0;
+    const pendingBday   = (b.data  || []).filter(x => x.status === 'pending').length;
+    const pendingRooms  = (r.data  || []).filter(x => x.status === 'pending').length;
+    const unread        = (c.data  || []).filter(x => !x.read).length;
+
+    document.getElementById('stat-contacts').textContent = totalContacts;
+    document.getElementById('stat-bday').textContent     = totalBday;
+    document.getElementById('stat-rooms').textContent    = totalRooms;
+    document.getElementById('stat-pending').textContent  = pendingBday + pendingRooms;
+    document.getElementById('badge-contacts').textContent= unread;
+    document.getElementById('badge-bday').textContent    = pendingBday;
+    document.getElementById('badge-rooms').textContent   = pendingRooms;
+  } catch(e) { console.error('Stats error:', e.message); }
 }
 
-/* ── Load Recent (all bookings) ───────── */
+/* ── Load Recent (combined) ──────────── */
 async function loadRecent() {
+  const db    = window._supabase;
   const tbody = document.getElementById('recent-tbody');
+  if (!db) {
+    tbody.innerHTML = noDataRow(6, '⚠️', 'Supabase not configured. Add your project URL and anon key to supabase-config.js');
+    return;
+  }
   try {
-    const res  = await fetch('/api/bookings');
-    const data = await res.json();
-    document.getElementById('recent-count').textContent = `${data.total} total`;
-    if (!data.data.length) {
-      tbody.innerHTML = `<tr><td colspan="6"><div class="no-data"><div class="no-data-icon">📋</div><div class="no-data-text">No bookings yet — they'll appear here when customers use the website!</div></div></td></tr>`;
+    const [b, r] = await Promise.all([
+      db.from('birthday_bookings').select('*').order('created_at', { ascending: false }).limit(10),
+      db.from('room_bookings').select('*').order('created_at', { ascending: false }).limit(10),
+    ]);
+    const all = [
+      ...(b.data || []).map(x => ({ ...x, _type: 'birthday', date: x.booking_date })),
+      ...(r.data || []).map(x => ({ ...x, _type: 'room',     date: x.booking_date })),
+    ].sort((a, b) => new Date(b.created_at) - new Date(a.created_at)).slice(0, 15);
+
+    document.getElementById('recent-count').textContent = `${all.length} recent`;
+    if (!all.length) {
+      tbody.innerHTML = noDataRow(6, '📋', 'No bookings yet — they will appear here when customers use the website!');
       return;
     }
-    tbody.innerHTML = data.data.slice(0, 15).map(b => `
+    tbody.innerHTML = all.map(b => `
       <tr>
-        <td>${b.type === 'birthday' ? '🎂 Birthday' : '🏨 Room'}</td>
+        <td>${b._type === 'birthday' ? '🎂 Birthday' : '🏨 Room'}</td>
         <td><strong>${b.name}</strong></td>
         <td>${b.phone}</td>
         <td>${fmtDate(b.date)}</td>
         <td>${statusBadge(b.status)}</td>
-        <td>${actionBtns(b.type, b.id, b.status)}</td>
+        <td>${actionBtns(b._type, b.id, b.status)}</td>
       </tr>
     `).join('');
-  } catch {
-    tbody.innerHTML = `<tr><td colspan="6"><div class="no-data"><div class="no-data-icon">⚠️</div><div class="no-data-text">Could not load data. Make sure the server is running on port 3000.</div></div></td></tr>`;
+  } catch(e) {
+    tbody.innerHTML = noDataRow(6, '⚠️', 'Could not load data: ' + e.message);
   }
 }
 
-/* ── Load Birthday Bookings ───────────── */
+/* ── Load Birthday Bookings ──────────── */
 async function loadBirthdays() {
+  const db    = window._supabase;
   const tbody = document.getElementById('bday-tbody');
+  if (!db) { tbody.innerHTML = noDataRow(8, '⚠️', 'Supabase not configured.'); return; }
   try {
-    const res  = await fetch('/api/bookings/birthday');
-    const data = await res.json();
-    document.getElementById('bday-count').textContent = `${data.total} bookings`;
-    if (!data.data.length) {
-      tbody.innerHTML = `<tr><td colspan="8"><div class="no-data"><div class="no-data-icon">🎂</div><div class="no-data-text">No birthday bookings yet!</div></div></td></tr>`;
-      return;
-    }
-    tbody.innerHTML = data.data.map(b => `
+    const { data, count, error } = await db
+      .from('birthday_bookings')
+      .select('*', { count: 'exact' })
+      .order('created_at', { ascending: false });
+    if (error) throw error;
+    document.getElementById('bday-count').textContent = `${count} bookings`;
+    if (!data.length) { tbody.innerHTML = noDataRow(8, '🎂', 'No birthday bookings yet!'); return; }
+    tbody.innerHTML = data.map(b => `
       <tr>
         <td><strong>${b.name}</strong></td>
         <td>${b.phone}</td>
-        <td>${fmtDate(b.date)}</td>
-        <td>${b.time || '–'}</td>
+        <td>${fmtDate(b.booking_date)}</td>
+        <td>${b.booking_time || '–'}</td>
         <td>${b.guests}</td>
         <td>${b.theme || '–'}</td>
         <td>${statusBadge(b.status)}</td>
         <td>${actionBtns('birthday', b.id, b.status)}</td>
       </tr>
     `).join('');
-  } catch {
-    tbody.innerHTML = `<tr><td colspan="8"><div class="no-data"><div class="no-data-icon">⚠️</div><div class="no-data-text">Server not reachable.</div></div></td></tr>`;
+  } catch(e) {
+    tbody.innerHTML = noDataRow(8, '⚠️', 'Load failed: ' + e.message);
   }
 }
 
-/* ── Load Room Bookings ───────────────── */
+/* ── Load Room Bookings ──────────────── */
 async function loadRooms() {
+  const db    = window._supabase;
   const tbody = document.getElementById('rooms-tbody');
+  if (!db) { tbody.innerHTML = noDataRow(8, '⚠️', 'Supabase not configured.'); return; }
   try {
-    const res  = await fetch('/api/bookings/room');
-    const data = await res.json();
-    document.getElementById('rooms-count').textContent = `${data.total} bookings`;
-    if (!data.data.length) {
-      tbody.innerHTML = `<tr><td colspan="8"><div class="no-data"><div class="no-data-icon">🏨</div><div class="no-data-text">No room bookings yet!</div></div></td></tr>`;
-      return;
-    }
-    tbody.innerHTML = data.data.map(b => `
+    const { data, count, error } = await db
+      .from('room_bookings')
+      .select('*', { count: 'exact' })
+      .order('created_at', { ascending: false });
+    if (error) throw error;
+    document.getElementById('rooms-count').textContent = `${count} bookings`;
+    if (!data.length) { tbody.innerHTML = noDataRow(8, '🏨', 'No room bookings yet!'); return; }
+    tbody.innerHTML = data.map(b => `
       <tr>
         <td><strong>${b.name}</strong></td>
         <td>${b.phone}</td>
-        <td>${b.room}</td>
-        <td>${fmtDate(b.date)}</td>
+        <td>${b.room_type}</td>
+        <td>${fmtDate(b.booking_date)}</td>
         <td>${b.guests}</td>
         <td>${b.occasion || '–'}</td>
         <td>${statusBadge(b.status)}</td>
         <td>${actionBtns('room', b.id, b.status)}</td>
       </tr>
     `).join('');
-  } catch {
-    tbody.innerHTML = `<tr><td colspan="8"><div class="no-data"><div class="no-data-icon">⚠️</div><div class="no-data-text">Server not reachable.</div></div></td></tr>`;
+  } catch(e) {
+    tbody.innerHTML = noDataRow(8, '⚠️', 'Load failed: ' + e.message);
   }
 }
 
-/* ── Load Contacts ────────────────────── */
+/* ── Load Contacts ─────────────────── */
 async function loadContacts() {
+  const db    = window._supabase;
   const tbody = document.getElementById('contacts-tbody');
+  if (!db) { tbody.innerHTML = noDataRow(6, '⚠️', 'Supabase not configured.'); return; }
   try {
-    const res  = await fetch('/api/contact');
-    const data = await res.json();
-    document.getElementById('contacts-count').textContent = `${data.total} messages`;
-    if (!data.data.length) {
-      tbody.innerHTML = `<tr><td colspan="6"><div class="no-data"><div class="no-data-icon">📩</div><div class="no-data-text">No contact messages yet!</div></div></td></tr>`;
-      return;
-    }
-    tbody.innerHTML = data.data.map(c => `
+    const { data, count, error } = await db
+      .from('contacts')
+      .select('*', { count: 'exact' })
+      .order('created_at', { ascending: false });
+    if (error) throw error;
+    document.getElementById('contacts-count').textContent = `${count} messages`;
+    if (!data.length) { tbody.innerHTML = noDataRow(6, '📩', 'No contact messages yet!'); return; }
+    tbody.innerHTML = data.map(c => `
       <tr>
         <td><strong>${c.name}</strong></td>
         <td>${c.subject}</td>
         <td style="max-width:260px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${c.message}</td>
         <td>${c.phone || '–'}</td>
         <td>${c.email || '–'}</td>
-        <td style="color:var(--muted);font-size:0.8rem;">${fmtDate(c.createdAt)}</td>
+        <td style="color:var(--muted);font-size:0.8rem;">${fmtDate(c.created_at)}</td>
       </tr>
     `).join('');
   } catch {

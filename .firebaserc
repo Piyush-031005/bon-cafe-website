@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "bon-cafe-sweets"
+  },
+  "targets": {
+    "bon-cafe-sweets": {
+      "hosting": {
+        "bon-cafe-sweets": [
+          "bon-cafe-sweets"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

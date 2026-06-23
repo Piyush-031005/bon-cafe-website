@@ -572,6 +572,8 @@
 <!-- ─── SCRIPTS ───────────────────────────────────────── -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="assets/js/supabase-config.js"></script>
 <script src="assets/js/main.js"></script>
 <script>
 'use strict';
@@ -601,10 +603,10 @@ function updateClock() {
 setInterval(updateClock, 1000);
 updateClock();
 
-/* ── Contact Form Submission ──────────── */
+/* ── Contact Form Submission — Supabase ── */
 document.addEventListener('DOMContentLoaded', () => {
-  const form   = document.getElementById('contact-form');
-  const btn    = document.getElementById('contact-submit-btn');
+  const form    = document.getElementById('contact-form');
+  const btn     = document.getElementById('contact-submit-btn');
   const success = document.getElementById('contact-success');
 
   if (!form) return;
@@ -614,6 +616,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const name    = document.getElementById('contact-name').value.trim();
     const message = document.getElementById('contact-message').value.trim();
     const subject = document.getElementById('contact-subject').value;
+
     if (!name || !message || !subject) {
       alert('Please fill in all required fields (Name, Subject, and Message).');
       return;
@@ -624,26 +627,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const payload = {
       name,
-      phone:   document.getElementById('contact-phone').value.trim(),
-      email:   document.getElementById('contact-email').value.trim(),
+      phone:   document.getElementById('contact-phone').value.trim()   || null,
+      email:   document.getElementById('contact-email').value.trim()   || null,
       subject,
       message,
     };
 
     try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-      if (res.ok) {
-        form.style.display = 'none';
-        success.classList.add('show');
-      } else {
-        throw new Error('Server error');
+      if (window._supabase) {
+        const { error } = await window._supabase
+          .from('contacts')
+          .insert([payload]);
+        if (error) throw error;
       }
-    } catch {
-      // Graceful fallback if backend isn't running
+      // Show success — even if Supabase key not set yet, for demo mode
+      form.style.display = 'none';
+      success.classList.add('show');
+    } catch (err) {
+      console.error('[Contact Form] Supabase error:', err.message);
+      // Graceful fallback — still show success UI so user isn't stuck
       form.style.display = 'none';
       success.classList.add('show');
     }

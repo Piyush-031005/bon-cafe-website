@@ -1,11 +1,11 @@
 /* ================================================================
    BON CAFÉ & SWEETS — DESIGN SYSTEM v2
    Color: Orange #F4722B · Cream #FFF5DC · Gold #FFD447 · Espresso #1A0A00
-   Font: "Baloo 2" (bubble display) + "Poppins" (body)
+   Font: "Chewy" (funky display) + "Poppins" (body)
    Style: Bold flat poster design — NO glow, NO neon, NO dark-brown
    ================================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Chewy&family=Poppins:wght@300;400;500;600;700&display=swap');
 
 /* ── TOKENS ──────────────────────────────────────────────── */
 :root {
@@ -43,7 +43,8 @@
   --border-orange: rgba(255,85,0,0.35);
 
   /* Fonts */
-  --font-display: 'Baloo 2', 'Fredoka', cursive;
+  --font-display: 'Chewy', cursive;
+  --font-heading: 'Chewy', cursive;
   --font-body:    'Poppins', sans-serif;
 
   /* Spacing */
@@ -65,10 +66,63 @@ img { max-width: 100%; height: auto; display: block; }
 a { text-decoration: none; color: inherit; }
 
 /* ── TYPOGRAPHY ──────────────────────────────────────────── */
-h1, h2, h3, h4 {
+h1, h2, h3, h4,
+.section-title,
+.hero-title,
+.cta-banner-text h2,
+.food-card-name,
+.room-card-title,
+.timeline-title,
+.testimonial-name,
+.stat-number,
+.btn,
+.nav-logo,
+.footer-brand-logo,
+.footer-heading,
+.mobile-menu a,
+.loader-logo,
+.category-title,
+.menu-hero-content h1,
+.menu-section-title,
+.rooms-hero h1,
+.gallery-hero h1,
+.success-title,
+.cal-month {
   font-family: var(--font-display);
-  font-weight: 800;
-  line-height: 1.1;
+  word-spacing: 0.08em !important;
+}
+
+/* Large headings spacing rules */
+h1, h2,
+.hero-title,
+.section-title,
+.cta-banner-text h2,
+.menu-hero-content h1,
+.rooms-hero h1,
+.gallery-hero h1,
+.success-title {
+  letter-spacing: 0.04em !important;
+  line-height: 1.15 !important;
+}
+
+/* Smaller headings/elements spacing rules */
+h3, h4,
+.food-card-name,
+.room-card-title,
+.timeline-title,
+.testimonial-name,
+.stat-number,
+.btn,
+.nav-logo,
+.footer-brand-logo,
+.footer-heading,
+.mobile-menu a,
+.loader-logo,
+.category-title,
+.menu-section-title,
+.cal-month {
+  letter-spacing: 0.04em !important;
+  line-height: 1.25 !important;
 }
 
 .section-tag {
@@ -95,7 +149,6 @@ h1, h2, h3, h4 {
   font-family: var(--font-display);
   font-size: clamp(2.2rem, 5vw, 3.8rem);
   font-weight: 900;
-  letter-spacing: -0.02em;
   color: var(--text-on-dark);
   margin-bottom: 16px;
 }
@@ -681,7 +734,7 @@ h1, h2, h3, h4 {
   font-family:var(--font-display);font-size:1.1rem;font-weight:800;
   flex-shrink:0;
 }
-.testimonial-name{font-family:var(--font-display);font-size:0.95rem;font-weight:700;color:var(--cream);}
+.testimonial-name{font-family:var(--font-display);font-size:0.95rem;font-weight:700;color:var(--cream);letter-spacing:0.04em;word-spacing:0.08em;}
 .testimonial-role{font-size:0.78rem;color:var(--text-muted-dark);}
 
 /* ── CTA BANNER ──────────────────────────────────────────── */

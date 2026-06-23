@@ -9,11 +9,11 @@
     content="Bon Café & Sweets in Pithoragarh, Uttarakhand. Gourmet burgers, rolls, pizza, Indian sweets, and premium milkshakes. Birthday bookings & private dining. Open daily 8 AM – 9:40 PM." />
   <meta name="keywords"
     content="Bon Cafe Pithoragarh, cafe Dharchula Road, birthday booking Pithoragarh, burgers Uttarakhand, sweets cafe" />
-  <!-- Fonts: Baloo 2 (bubble display) + Poppins (body) -->
+  <!-- Fonts: Chewy (funky headings) + Poppins (body) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800;900&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Chewy&family=Poppins:wght@300;400;500;600;700&display=swap"
     rel="stylesheet" />
   <link rel="stylesheet" href="assets/css/main.css" />
   <link rel="stylesheet" href="assets/css/animations.css" />
@@ -25,14 +25,53 @@
 
   <!-- ─── SAUCE SPLASH INTRO OVERLAY ───────────────────────── -->
   <div id="sauce-splash-overlay">
-    <svg viewBox="0 0 1440 900" preserveAspectRatio="none" id="sauce-svg">
+    <!-- Cinematic Sauce Bottle -->
+    <div id="sauce-bottle-wrapper">
+      <svg id="sauce-bottle" viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg">
+        <!-- Bottle Body -->
+        <path d="M 30 20 L 70 20 Q 80 20 80 40 L 80 140 Q 80 160 70 160 L 30 160 Q 20 160 20 140 L 20 40 Q 20 20 30 20 Z" fill="#D84300" stroke="#FFD447" stroke-width="2" />
+        <!-- Cap/Collar -->
+        <path d="M 25 160 L 75 160 L 62 182 L 38 182 Z" fill="#FFFDF6" />
+        <!-- Nozzle pointing straight down -->
+        <path d="M 46 182 L 54 182 L 50 196 Z" fill="#FF5500" />
+        <!-- Label -->
+        <rect x="26" y="50" width="48" height="70" rx="3" fill="#FFFDF6" />
+        <text x="50" y="85" font-family="'Chewy', cursive" font-size="16" fill="#D84300" font-weight="bold" text-anchor="middle">BON</text>
+        <text x="50" y="105" font-family="'Poppins', sans-serif" font-size="7" fill="#0A0A0A" font-weight="800" text-anchor="middle">SAUCE</text>
+      </svg>
+    </div>
+
+    <!-- Sauce burst stream -->
+    <svg id="sauce-burst-svg" viewBox="0 0 800 600" style="position:absolute; top:0; left:0; width:100vw; height:100vh; z-index:10001; pointer-events:none;" xmlns="http://www.w3.org/2000/svg">
+      <path id="sauce-burst-stream" d="M 400 216 L 400 300" stroke="#FF5500" stroke-width="0" stroke-linecap="round" fill="none" opacity="0" />
+    </svg>
+
+    <!-- Splash SVG containing splat, drips, and curtain -->
+    <!-- Splash SVG containing splat and curtain -->
+    <svg id="sauce-svg" viewBox="0 0 800 600" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <linearGradient id="sauce-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+        <!-- Rich Sauce Gradient -->
+        <linearGradient id="sauce-grad-cinematic" x1="0%" y1="0%" x2="0%" y2="100%">
           <stop offset="0%" stop-color="#FF5500" />
-          <stop offset="100%" stop-color="#D84300" />
+          <stop offset="60%" stop-color="#D84300" />
+          <stop offset="100%" stop-color="#550A00" />
         </linearGradient>
       </defs>
-      <path id="sauce-path" d="M -10 -10 L 1450 -10 L 1450 0 C 1200 0, 900 0, 720 0 C 500 0, 200 0, -10 0 Z" fill="url(#sauce-grad)" />
+      
+
+
+      <!-- Organic irregular splat — covers full screen when scaled -->
+      <path id="organic-splat" transform="translate(400, 300) scale(0) translate(-400, -300)" 
+        d="M400,300 
+          C340,180 200,120 100,180 
+          C0,240 20,360 0,450 
+          C-20,540 80,560 180,530 
+          C280,500 260,620 400,600 
+          C540,580 540,620 640,560 
+          C740,500 800,480 800,380 
+          C800,280 740,180 640,160 
+          C540,140 460,200 400,300 Z" 
+        fill="url(#sauce-grad-cinematic)" />
     </svg>
   </div>
 
@@ -84,7 +123,7 @@
   <!--  SECTION 1 — HERO                                         -->
   <!-- ══════════════════════════════════════════════════════════ -->
   <section id="hero">
-
+    <div class="hero-bg-watermark">BON CAFE</div>
     <div class="hero-content">
       <!-- ── REALISTIC LAYERED BURGER ───────────────────────── -->
       <!-- Each layer is a real food photograph, animated by burger.js -->
@@ -317,14 +356,23 @@
       </div>
       <div class="menu-grid featured-grid" style="margin-top:60px;">
 
+        <!-- 1. SIGNATURE BURGER -->
         <div class="food-card reveal reveal-delay-1">
           <div class="food-card-img">
-            <img src="assets/images/hero_burger.png" alt="Bon Special Burger" loading="lazy" />
-            <div class="food-card-badge"><span class="badge badge-best">Bestseller</span></div>
+            <div class="food-card-img-placeholder">
+              <svg class="food-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 11c0-3.3 2.7-6 6-6h6c3.3 0 6 2.7 6 6v1H3v-1z" />
+                <path d="M2 14c1-.5 2 .5 3 0c1-.5 2 .5 3 0c1-.5 2 .5 3 0c1-.5 2 .5 3 0c1-.5 2 .5 3 0c1-.5 2-.5 3 0" />
+                <path d="M3 16l18-2" />
+                <rect x="3" y="17" width="18" height="2" rx="1" />
+                <path d="M4 20c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-1H4v1z" />
+              </svg>
+            </div>
+            <div class="food-card-badge"><span class="badge badge-best">Signature</span></div>
           </div>
           <div class="food-card-body">
             <div class="food-card-name">Bon Special Burger</div>
-            <div class="food-card-desc">Double patty, melted cheese, fresh lettuce, tomato & our signature sauce</div>
+            <div class="food-card-desc">Double flame-grilled patty, melted aged cheddar, crisp mountain lettuce, fresh tomato & our secret signature sauce.</div>
             <div class="food-card-footer">
               <div class="food-card-price">₹200 <small>/piece</small></div>
               <button class="food-card-add" aria-label="Add to order">+</button>
@@ -332,14 +380,23 @@
           </div>
         </div>
 
+        <!-- 2. SIGNATURE PIZZA -->
         <div class="food-card reveal reveal-delay-2">
           <div class="food-card-img">
-            <div class="food-card-img-placeholder">🍕</div>
-            <div class="food-card-badge"><span class="badge badge-hot">Hot</span></div>
+            <div class="food-card-img-placeholder">
+              <svg class="food-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 2c0 0-3 12-16 16 0 0 12 3 16-16z" />
+                <path d="M4 18c2 2 6 4 10 4" />
+                <circle cx="15" cy="8" r="1.5" />
+                <circle cx="11" cy="12" r="1.5" />
+                <circle cx="16" cy="14" r="1" />
+              </svg>
+            </div>
+            <div class="food-card-badge"><span class="badge badge-hot">Signature</span></div>
           </div>
           <div class="food-card-body">
             <div class="food-card-name">Farmhouse Pizza</div>
-            <div class="food-card-desc">Loaded with capsicum, corn, onion, olives & extra mozzarella</div>
+            <div class="food-card-desc">Hand-stretched crust loaded with crisp capsicum, sweet corn, black olives, onions, and bubbling double mozzarella.</div>
             <div class="food-card-footer">
               <div class="food-card-price">₹220 <small>/pizza</small></div>
               <button class="food-card-add" aria-label="Add to order">+</button>
@@ -347,14 +404,24 @@
           </div>
         </div>
 
+        <!-- 3. SIGNATURE SHAKE -->
         <div class="food-card reveal reveal-delay-3">
           <div class="food-card-img">
-            <img src="assets/images/milkshake_hero.png" alt="Chocolate Milkshake" loading="lazy" />
-            <div class="food-card-badge"><span class="badge badge-new">New</span></div>
+            <div class="food-card-img-placeholder">
+              <svg class="food-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 8l1.5 12A2 2 0 0 0 9.5 22h5a2 2 0 0 0 2-2L18 8" />
+                <path d="M5 8h14" />
+                <path d="M12 8l3-6h2" />
+                <circle cx="10" cy="14" r="1" />
+                <circle cx="14" cy="17" r="1" />
+                <circle cx="11" cy="18" r="1.5" />
+              </svg>
+            </div>
+            <div class="food-card-badge"><span class="badge badge-best">Signature</span></div>
           </div>
           <div class="food-card-body">
             <div class="food-card-name">Choco Overload Shake</div>
-            <div class="food-card-desc">Rich chocolate, whipped cream, brownie bits & chocolate drizzle</div>
+            <div class="food-card-desc">Rich Belgian chocolate blend, topped with fresh whipped cream, warm dark chocolate drizzle & fudge brownie bits.</div>
             <div class="food-card-footer">
               <div class="food-card-price">₹140 <small>/glass</small></div>
               <button class="food-card-add" aria-label="Add to order">+</button>
@@ -362,13 +429,22 @@
           </div>
         </div>
 
-        <div class="food-card reveal reveal-delay-4">
+        <!-- 4. SIGNATURE DESSERT -->
+        <div class="food-card reveal reveal-delay-1">
           <div class="food-card-img">
-            <div class="food-card-img-placeholder">🍬</div>
+            <div class="food-card-img-placeholder">
+              <svg class="food-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2 17h20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2z" />
+                <circle cx="8" cy="12" r="4" />
+                <circle cx="16" cy="12" r="4" />
+                <circle cx="12" cy="8" r="4" />
+              </svg>
+            </div>
+            <div class="food-card-badge"><span class="badge badge-new">Signature</span></div>
           </div>
           <div class="food-card-body">
             <div class="food-card-name">Gulab Jamun</div>
-            <div class="food-card-desc">Soft golden dumplings soaked in saffron-rose sugar syrup, served warm</div>
+            <div class="food-card-desc">Warm, soft golden-brown milk dumplings, delicately soaked in a luxurious saffron-infused rose water syrup.</div>
             <div class="food-card-footer">
               <div class="food-card-price">₹80 <small>/plate</small></div>
               <button class="food-card-add" aria-label="Add to order">+</button>
@@ -376,28 +452,23 @@
           </div>
         </div>
 
+        <!-- 5. SIGNATURE COFFEE -->
         <div class="food-card reveal reveal-delay-2">
           <div class="food-card-img">
-            <div class="food-card-img-placeholder">🥗</div>
-            <div class="food-card-badge"><span class="badge badge-hot">Hot</span></div>
-          </div>
-          <div class="food-card-body">
-            <div class="food-card-name">Paneer Tikka Roll</div>
-            <div class="food-card-desc">Spiced paneer tikka, mint chutney, onions in a crispy paratha roll</div>
-            <div class="food-card-footer">
-              <div class="food-card-price">₹130 <small>/roll</small></div>
-              <button class="food-card-add" aria-label="Add to order">+</button>
+            <div class="food-card-img-placeholder">
+              <svg class="food-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 8H6v8a4 4 0 0 0 4 4h4a4 4 0 0 0 4-4V8z" />
+                <path d="M17 11h2a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2h-2" />
+                <path d="M9 2v3" />
+                <path d="M12 2v3" />
+                <path d="M15 2v3" />
+              </svg>
             </div>
-          </div>
-        </div>
-
-        <div class="food-card reveal reveal-delay-3">
-          <div class="food-card-img">
-            <img src="assets/images/coffee_steam.png" alt="Latte Coffee" loading="lazy" />
+            <div class="food-card-badge"><span class="badge badge-hot">Signature</span></div>
           </div>
           <div class="food-card-body">
             <div class="food-card-name">Signature Latte</div>
-            <div class="food-card-desc">Rich espresso with velvety steamed milk & beautiful latte art</div>
+            <div class="food-card-desc">Double shot of premium espresso with velvety micro-foamed steamed milk and bespoke free-pour latte art.</div>
             <div class="food-card-footer">
               <div class="food-card-price">₹80 <small>/cup</small></div>
               <button class="food-card-add" aria-label="Add to order">+</button>
@@ -407,7 +478,7 @@
 
       </div>
       <div style="text-align:center;margin-top:50px;" class="reveal">
-        <a href="menu.html" class="btn btn-ghost" style="font-size:1rem;padding:16px 42px;">View Full Menu →</a>
+        <a href="menu.html" class="btn btn-ghost" style="font-size:1rem;padding:16px 42px;">Explore Full Menu →</a>
       </div>
     </div>
   </section>

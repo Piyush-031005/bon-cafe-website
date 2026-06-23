@@ -42,8 +42,57 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 4rem;
-  background: linear-gradient(135deg, rgba(244,114,43,0.15), rgba(255,212,71,0.1));
+  font-size: 3.5rem;
+  background: linear-gradient(135deg, #0d0905 0%, #1c1007 100%);
+  border-bottom: 1px solid rgba(255, 85, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+  transition: background var(--trans-med);
+}
+
+.food-icon {
+  width: 54px;
+  height: 54px;
+  stroke: var(--gold);
+  filter: drop-shadow(0 2px 8px rgba(255, 212, 71, 0.18));
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), stroke var(--trans-med);
+}
+
+.food-card:hover .food-icon {
+  transform: scale(1.18) rotate(6deg);
+  stroke: var(--orange);
+  filter: drop-shadow(0 4px 12px rgba(255, 85, 0, 0.28));
+}
+
+.food-card-img-placeholder::before {
+  content: '';
+  position: absolute;
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 85, 0, 0.1) 0%, transparent 70%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.food-card-img-placeholder::after {
+  content: '';
+  position: absolute;
+  width: 85px;
+  height: 85px;
+  border: 1.5px dashed rgba(255, 212, 71, 0.12);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  animation: rotateHUD 25s linear infinite;
+}
+
+.food-card:hover .food-card-img-placeholder {
+  background: linear-gradient(135deg, #170d05 0%, #29160a 100%);
 }
 
 .food-card-badge {
@@ -63,6 +112,9 @@
   font-weight: 700;
   color: var(--cream);
   margin-bottom: 8px;
+  letter-spacing: 0.04em;
+  word-spacing: 0.08em;
+  line-height: 1.25;
 }
 
 .food-card-desc {
@@ -154,6 +206,18 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 28px;
+}
+
+.featured-grid {
+  display: flex !important;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 28px;
+}
+
+.featured-grid .food-card {
+  flex: 1 1 300px;
+  max-width: 380px;
 }
 
 /* ─── STAT COUNTER CARD ──────────────────────────────────── */

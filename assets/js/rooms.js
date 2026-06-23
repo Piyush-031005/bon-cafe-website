@@ -42,12 +42,26 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     try {
-      await fetch('http://localhost:3001/api/bookings/room', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, phone, date, time, guests, room, event, notes, type: 'room', timestamp: new Date().toISOString() }),
-      });
-    } catch(e) { /* backend may be offline */ }
+      if (window._supabase) {
+        const { error } = await window._supabase
+          .from('room_bookings')
+          .insert([{
+            name,
+            phone,
+            email:           null,
+            room_type:       room    || null,
+            booking_date:    date    || null,
+            start_time:      time    || null,
+            guests:          parseInt(guests) || 1,
+            occasion:        event   || null,
+            special_requests: notes  || null,
+          }]);
+        if (error) throw error;
+      }
+    } catch(e) {
+      console.error('[Room Booking] Supabase error:', e.message);
+      // Graceful fallback — still show success
+    }
 
     // Success feedback
     const btn = document.getElementById('room-submit');

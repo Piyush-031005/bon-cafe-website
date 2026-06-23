@@ -235,15 +235,26 @@ function initConfirmButton() {
       return;
     }
 
-    // Submit to backend
+    // Submit to Supabase database
     try {
-      await fetch('http://localhost:3001/api/bookings/birthday', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...booking, name, phone, notes, type: 'birthday', timestamp: new Date().toISOString() }),
-      });
+      if (window._supabase) {
+        const { error } = await window._supabase
+          .from('birthday_bookings')
+          .insert([{
+            name,
+            phone,
+            email:            booking.email || null,
+            booking_date:     booking.date || null,
+            booking_time:     booking.time || null,
+            guests:           parseInt(booking.guests) || 1,
+            theme:            booking.theme || 'Classic',
+            special_requests: notes || null,
+          }]);
+        if (error) throw error;
+      }
     } catch(e) {
-      // Backend might not be running in static mode — still show success
+      console.error('[Birthday Booking] Supabase error:', e.message);
+      // Still show success — graceful fallback
     }
 
     // Show success + confetti

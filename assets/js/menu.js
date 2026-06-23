@@ -57,13 +57,5 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Add to order toast
-  document.querySelectorAll('.food-card-add').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      if (window.showToast) showToast('🎉 Added!', 'Item noted in your order.');
-      btn.style.transform = 'scale(1.5) rotate(90deg)';
-      setTimeout(() => { btn.style.transform = ''; }, 350);
-    });
-  });
+
 });
